@@ -6,6 +6,7 @@ import android.support.annotation.ColorRes
 import android.support.v4.content.ContextCompat
 import android.util.TypedValue
 import android.view.View
+import android.view.animation.AnticipateInterpolator
 
 fun measureView(widthMeasureSpec: Int, heightMeasureSpec: Int, desiredWidth: Int, desiredHeight: Int, setMeasuredDimension: (Int, Int) -> Unit) {
     val widthMode = View.MeasureSpec.getMode(widthMeasureSpec)
@@ -36,3 +37,23 @@ fun Context.getColorCompat(@ColorRes resId: Int) = ContextCompat.getColor(this, 
 fun isLollipopOrAbove(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
 
 fun rangeCrop(bottomLimit: Float, topLimit: Float, value: Float) = Math.min(Math.max(bottomLimit, value), topLimit)
+
+fun View.animateScaleBounceOut(duration: Long = 150, scale: Float = 1.1f, tension: Float = 6f) {
+    animate().apply {
+        this.duration = duration
+        scaleX(scale)
+        scaleY(scale)
+        interpolator = AnticipateInterpolator(tension)
+        start()
+    }
+}
+
+fun View.animateScaleBounceIn(duration: Long = 150, scale: Float = 0.91f, tension: Float = 6f) {
+    animate().apply {
+        this.duration = duration
+        scaleX(scale)
+        scaleY(scale)
+        interpolator = AnticipateInterpolator(tension)
+        start()
+    }
+}

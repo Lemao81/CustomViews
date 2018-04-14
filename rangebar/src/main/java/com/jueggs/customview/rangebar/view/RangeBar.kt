@@ -36,15 +36,15 @@ class RangeBar(context: Context, attrs: AttributeSet) : FrameLayout(context, att
     private fun obtainAttributes(context: Context, attrs: AttributeSet) {
         val a = context.obtainStyledAttributes(attrs, R.styleable.RangeBar)
         thumbAttrs = ThumbAttributes(context, a)
-        barAttrs = BarAttributes(context, a, thumbAttrs.diameter)
+        barAttrs = BarAttributes(context, a, thumbAttrs)
         a.recycle()
     }
 
     private fun createViews(context: Context) {
         bar = Bar(context, barAttrs).apply {
             layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
-                leftMargin = thumbAttrs.radius
-                rightMargin = thumbAttrs.radius
+                leftMargin = barAttrs.margin
+                rightMargin = barAttrs.margin
                 gravity = Gravity.CENTER_VERTICAL
             }
         }
@@ -58,19 +58,19 @@ class RangeBar(context: Context, attrs: AttributeSet) : FrameLayout(context, att
         val rangeMaxPosition = valueTransformer.valueToPosition(barAttrs.rangeMax)
 
         leftThumb.init(rangeMinPosition)
-        rightThumb.init(rangeMaxPosition, rightEdge = width - thumbAttrs.diameter)
+        rightThumb.init(rangeMaxPosition, rightEdge = width - thumbAttrs.rightEdge)
         bar.init(width, rangeMinPosition, rangeMaxPosition)
 
         disposables = CompositeDisposable()
         disposables?.add(leftThumb.observe().subscribe { position ->
             rightThumb.positionLeftThumb = position
             bar.setLeftRange(position)
-            invalidate()
+            requestLayout()
         })
         disposables?.add(rightThumb.observe().subscribe { position ->
             leftThumb.positionRightThumb = position
             bar.setRightRange(position)
-            invalidate()
+            requestLayout()
         })
 
         return true

@@ -24,23 +24,18 @@ abstract class Thumb(context: Context, private val attrs: ThumbAttributes) : Vie
         }
 
     open fun init(startPosition: Int) {
-        val onTouchListener = CompoundTouchListener()
-        onTouchListener += VerticalMoveListener { move(it.toInt()) }
-        setOnTouchListener(onTouchListener)
+        CompoundTouchListener().apply {
+            add(TapDownListener { animateScaleBounceOut() })
+            add(VerticalMoveListener { move(it.toInt()) })
+            add(TapUpListener { animateScaleBounceIn() })
+            setOnTouchListener(this)
+        }
 
         positionPublisher = BehaviorSubject.createDefault(startPosition)
     }
 
-    fun move(dx: Int) {
-        val unbounded = position + dx
-        val bottomLimit = bottomLimit()
-        val topLimit = topLimit()
-
-        val toMove = when {
-            unbounded < bottomLimit -> dx + (bottomLimit - unbounded)
-            unbounded > topLimit -> dx - (unbounded - topLimit)
-            else -> dx
-        }
+    private fun move(dx: Int) {
+        val toMove = calcMovement(position + dx, dx, bottomLimit(), topLimit())
 
         if (toMove != 0) {
             position += toMove
@@ -48,14 +43,24 @@ abstract class Thumb(context: Context, private val attrs: ThumbAttributes) : Vie
         }
     }
 
+    private fun calcMovement(unbounded: Int, dx: Int, bottomLimit: Int, topLimit: Int): Int = when {
+        unbounded < bottomLimit -> dx + (bottomLimit - unbounded)
+        unbounded > topLimit -> dx - (unbounded - topLimit)
+        else -> dx
+    }
+
     abstract fun bottomLimit(): Int
     abstract fun topLimit(): Int
 
     fun observe(): Observable<Int> = positionPublisher
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) = measureView(widthMeasureSpec, heightMeasureSpec, attrs.diameter, attrs.diameter, this::setMeasuredDimension)
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        val size = attrs.diameter + 2 * attrs.margin
+        measureView(widthMeasureSpec, heightMeasureSpec, size, size, this::setMeasuredDimension)
+    }
 
     override fun onDraw(canvas: Canvas) {
-        canvas.drawCircle(attrs.radiusF, attrs.radiusF, attrs.radiusF, paint)
+        val centerXY = attrs.margin + attrs.radiusF
+        canvas.drawCircle(centerXY, centerXY, attrs.radiusF, paint)
     }
 }

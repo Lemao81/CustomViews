@@ -16,6 +16,8 @@ class CompoundTouchListener : View.OnTouchListener {
         return consumed
     }
 
+    fun add(listener: View.OnTouchListener) = listeners.add(listener)
+
     operator fun plusAssign(listener: View.OnTouchListener) {
         listeners.add(listener)
     }
