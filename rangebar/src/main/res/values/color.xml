@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="default_thumb_color">#3B647D</color>
+    <color name="default_bar_base_color">#416E8B</color>
+    <color name="default_bar_range_color">#6891AA</color>
+</resources>

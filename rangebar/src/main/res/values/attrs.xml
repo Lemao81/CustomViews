@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RangeBar">
+        <attr name="thumbDiameter" format="dimension" />
+        <attr name="thumbColor" format="color" />
+        <attr name="barHeight" format="dimension" />
+        <attr name="barRadius" format="integer" />
+        <attr name="barBaseColor" format="color" />
+        <attr name="barRangeColor" format="color" />
+        <attr name="totalMin" format="integer" />
+        <attr name="totalMax" format="integer" />
+        <attr name="rangeMin" format="integer" />
+        <attr name="rangeMax" format="integer" />
+    </declare-styleable>
+</resources>
