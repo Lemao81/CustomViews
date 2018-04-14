@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".TestActivity">
 
-    <com.jueggs.customview.rangebar.RangeBar
+    <com.jueggs.customview.rangebar.view.RangeBar
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"

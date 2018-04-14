@@ -1,11 +1,13 @@
-package com.jueggs.customview.rangebar
+package com.jueggs.customview.rangebar.view
 
 import android.content.Context
+import android.support.v4.content.res.TypedArrayUtils.obtainAttributes
 import android.util.AttributeSet
 import android.view.Gravity
 import android.widget.FrameLayout
-import com.jueggs.customview.rangebar.R.attr.*
+import com.jueggs.customview.rangebar.*
 import com.jueggs.customview.rangebar.attribute.*
+import com.jueggs.customview.rangebar.helper.ValueTransformer
 import io.reactivex.Observable
 
 class RangeBar(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
@@ -15,6 +17,7 @@ class RangeBar(context: Context, attrs: AttributeSet) : FrameLayout(context, att
     private lateinit var leftThumb: LeftThumb
     private lateinit var rightThumb: RightThumb
     private lateinit var valueTransformer: ValueTransformer
+    private var initialized = false
 
     init {
         obtainAttributes(context, attrs)
@@ -24,10 +27,7 @@ class RangeBar(context: Context, attrs: AttributeSet) : FrameLayout(context, att
         addView(leftThumb)
         addView(rightThumb)
 
-        viewTreeObserver.addOnGlobalLayoutListener {
-            rightThumb.positionRightEdge = width - thumbDiameter
-            valueTransformer = ValueTransformer(width, barAttrs.totalMin, barAttrs.totalMax)
-        }
+        viewTreeObserver.addOnGlobalLayoutListener { if (!initialized) initialized = init() }
     }
 
     private fun obtainAttributes(context: Context, attrs: AttributeSet) {
@@ -55,15 +55,29 @@ class RangeBar(context: Context, attrs: AttributeSet) : FrameLayout(context, att
                 gravity = Gravity.NO_GRAVITY
             }
         }
+    }
+
+    private fun init(): Boolean {
+        valueTransformer = ValueTransformer(width, barAttrs)
+        val rangeMinPosition = valueTransformer.valueToPosition(barAttrs.rangeMin)
+        val rangeMaxPosition = valueTransformer.valueToPosition(barAttrs.rangeMax)
+        leftThumb.init(rangeMinPosition)
+        rightThumb.init(rangeMaxPosition, width - thumbAttrs.diameter)
+        bar.init(width, rangeMinPosition, rangeMaxPosition)
 
         leftThumb.observePosition().subscribe { position ->
             rightThumb.positionLeftThumb = position
             bar.setLeftRange(position)
+            requestLayout()
+            invalidate()
         }
         rightThumb.observePosition().subscribe { position ->
             leftThumb.positionRightThumb = position
             bar.setRightRange(position)
+            requestLayout()
+            invalidate()
         }
+        return true
     }
 
     fun observeMin(): Observable<Int> = leftThumb.observePosition()

@@ -1,6 +1,7 @@
 package com.jueggs.customview.util
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.*
 
 class CompoundTouchListener : View.OnTouchListener {

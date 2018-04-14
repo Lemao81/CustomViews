@@ -1,4 +1,4 @@
-package com.jueggs.customview.rangebar
+package com.jueggs.customview.rangebar.view
 
 import android.content.Context
 import android.graphics.*
@@ -8,7 +8,7 @@ import com.jueggs.customview.util.measureView
 
 class Bar(context: Context, private val attrs: BarAttributes) : View(context) {
     private val baseBounds = RectF(0f, 0f, 0f, attrs.heightF)
-    private val rangeBounds = Rect(attrs.rangeMin, 0, attrs.rangeMax, attrs.height)
+    private val rangeBounds = Rect(0, 0, 0, attrs.height)
 
     private val basePaint = Paint().apply {
         color = attrs.baseColor
@@ -19,17 +19,20 @@ class Bar(context: Context, private val attrs: BarAttributes) : View(context) {
         style = Paint.Style.FILL
     }
 
+    fun init(width: Int, startMinRange: Int, startMaxRange: Int) {
+        baseBounds.right = width.toFloat()
+        rangeBounds.left = startMinRange
+        rangeBounds.right = startMaxRange
+    }
+
     fun setLeftRange(position: Int) {
         rangeBounds.left = position
+        invalidate()
     }
 
     fun setRightRange(position: Int) {
         rangeBounds.right = position
-    }
-
-    override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {
-        baseBounds.right = width.toFloat()
-        baseBounds.bottom = height.toFloat()
+        invalidate()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) = measureView(widthMeasureSpec, heightMeasureSpec, Int.MAX_VALUE, attrs.height, this::setMeasuredDimension)
