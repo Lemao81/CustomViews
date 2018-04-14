@@ -5,7 +5,7 @@ import android.graphics.*
 import android.view.View
 import android.widget.FrameLayout
 import com.jueggs.customview.rangebar.attribute.ThumbAttributes
-import com.jueggs.customview.util.*
+import com.jueggs.customview.rangebar.util.*
 import io.reactivex.Observable
 import io.reactivex.subjects.*
 
@@ -51,7 +51,7 @@ abstract class Thumb(context: Context, private val attrs: ThumbAttributes) : Vie
     abstract fun bottomLimit(): Int
     abstract fun topLimit(): Int
 
-    fun observePosition(): Observable<Int> = positionPublisher
+    fun observe(): Observable<Int> = positionPublisher
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) = measureView(widthMeasureSpec, heightMeasureSpec, attrs.diameter, attrs.diameter, this::setMeasuredDimension)
 

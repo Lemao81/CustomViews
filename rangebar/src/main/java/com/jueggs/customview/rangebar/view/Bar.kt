@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.view.View
 import com.jueggs.customview.rangebar.attribute.BarAttributes
-import com.jueggs.customview.util.measureView
+import com.jueggs.customview.rangebar.util.measureView
 
 class Bar(context: Context, private val attrs: BarAttributes) : View(context) {
     private val baseBounds = RectF(0f, 0f, 0f, attrs.heightF)

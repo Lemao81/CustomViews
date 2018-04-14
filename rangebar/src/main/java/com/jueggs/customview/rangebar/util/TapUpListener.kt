@@ -1,4 +1,4 @@
-package com.jueggs.customview.util
+package com.jueggs.customview.rangebar.util
 
 import android.view.*
 

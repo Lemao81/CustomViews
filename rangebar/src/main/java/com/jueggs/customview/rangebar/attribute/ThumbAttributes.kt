@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.res.TypedArray
 import com.jueggs.customview.rangebar.*
 import com.jueggs.customview.rangebar.R
-import com.jueggs.customview.util.*
+import com.jueggs.customview.rangebar.util.*
 
 class ThumbAttributes(context: Context, a: TypedArray) {
     val diameter = a.getDimensionPixelSize(R.styleable.RangeBar_thumbDiameter, context.dpToPixel(DEFAULT_THUMB_DIAMETER))

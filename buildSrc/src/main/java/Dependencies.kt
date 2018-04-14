@@ -14,7 +14,7 @@ object Versions {
     const val anko = "0.10.3"
     const val gms = "11.8.0"
     const val firebase = "11.8.0"
-    const val support = "27.1.0"
+    const val support = "27.1.1"
     const val androidPlugin = "3.1.0"
     const val databindingCompiler = "3.1.0"
     const val glide = "4.5.0"
@@ -114,4 +114,11 @@ object Urls {
     const val fabric = "https://maven.fabric.io/public"
     const val jitpack = "https://jitpack.io"
     const val maven = "https://maven.google.com/"
+}
+
+object Paths {
+    const val andutils = "C:\\Users\\Jueggs\\AndroidStudioProjects\\AndroidUtils\\andutils\\build\\outputs\\aar"
+    const val resutils = "C:\\Users\\Jueggs\\AndroidStudioProjects\\AndroidUtils\\resutils\\build\\outputs\\aar"
+    const val jutils = "C:\\Users\\Jueggs\\AndroidStudioProjects\\AndroidUtils\\jutils\\build\\libs"
+    const val firebaseutils = "C:\\Users\\Jueggs\\AndroidStudioProjects\\AndroidUtils\\firebaseutils\\build\\outputs\\aar"
 }

@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.res.TypedArray
 import com.jueggs.customview.rangebar.*
 import com.jueggs.customview.rangebar.R
-import com.jueggs.customview.util.*
+import com.jueggs.customview.rangebar.util.*
 
 class BarAttributes(context: Context, a: TypedArray, thumbDiameter: Int) {
     val height: Int = Math.min(a.getDimensionPixelSize(R.styleable.RangeBar_barHeight, context.dpToPixel(DEFAULT_BAR_HEIGHT)), thumbDiameter)
