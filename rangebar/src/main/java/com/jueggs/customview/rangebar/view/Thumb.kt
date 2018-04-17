@@ -32,7 +32,7 @@ abstract class Thumb(context: Context, private val attrs: ThumbAttributes, priva
         }
 
     init {
-        layoutParams = FrameLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
+        layoutParams = FrameLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply { setMargins(attrs.margin, attrs.margin, attrs.margin, attrs.margin) }
 
         CompoundTouchListener().apply {
             add(TapDownListener { animateScaleBounceOut() })
@@ -60,18 +60,17 @@ abstract class Thumb(context: Context, private val attrs: ThumbAttributes, priva
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val size = when {
             isInEditMode -> context.dpToPixel(DEFAULT_THUMB_DIAMETER)
-            else -> attrs.diameter + 2 * attrs.margin
+            else -> attrs.diameter
         }
         measureView(widthMeasureSpec, heightMeasureSpec, size, size, this::setMeasuredDimension)
     }
 
     override fun onDraw(canvas: Canvas) {
         if (isInEditMode) {
-            val centerXY = context.dpToPixel(DEFAULT_THUMB_DIAMETER).toFloat()
-            canvas.drawCircle(centerXY, centerXY, centerXY, paint)
+            val editRadius = context.dpToPixel(DEFAULT_THUMB_DIAMETER).toFloat() / 2
+            canvas.drawCircle(editRadius, editRadius, editRadius, paint)
         } else {
-            val centerXY = attrs.margin + attrs.radiusF
-            canvas.drawCircle(centerXY, centerXY, attrs.radiusF, paint)
+            canvas.drawCircle(attrs.radiusF, attrs.radiusF, attrs.radiusF, paint)
         }
     }
 }

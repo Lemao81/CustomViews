@@ -47,10 +47,11 @@ class RangeBar(context: Context, attrs: AttributeSet) : FrameLayout(context, att
         val rangeMinPosition = valueTransformer.valueToPosition(barAttrs.rangeMin)
         val rangeMaxPosition = valueTransformer.valueToPosition(barAttrs.rangeMax)
 
+        rangeLeftEdge = thumbAttrs.margin
         rangeRightEdge = width - thumbAttrs.rightEdgeOffset
         leftThumb.position = rangeMinPosition
         rightThumb.position = rangeMaxPosition
-        bar.initWidthAndRange(width, rangeMinPosition, rangeMaxPosition)
+        bar.initWidthAndRange(rangeMinPosition, rangeMaxPosition)
 
         disposables = CompositeDisposable()
         disposables?.add(leftThumb.observePositionChanging().subscribe { position ->

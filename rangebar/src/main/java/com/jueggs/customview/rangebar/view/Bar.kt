@@ -24,7 +24,7 @@ class Bar(context: Context, private val attrs: BarAttributes) : View(context) {
         }
     }
 
-    fun initWidthAndRange(width: Int, startMinRange: Int, startMaxRange: Int) {
+    fun initWidthAndRange(startMinRange: Int, startMaxRange: Int) {
         baseBounds.right = width.toFloat()
         rangeBounds.left = startMinRange
         rangeBounds.right = startMaxRange
@@ -40,7 +40,7 @@ class Bar(context: Context, private val attrs: BarAttributes) : View(context) {
         invalidate()
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) = measureView(widthMeasureSpec, heightMeasureSpec, Int.MAX_VALUE, attrs.height, this::setMeasuredDimension)
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) = measureView(widthMeasureSpec, heightMeasureSpec, baseBounds.right.toInt(), attrs.height, this::setMeasuredDimension)
 
     override fun onDraw(canvas: Canvas) {
         canvas.drawRoundRect(baseBounds, attrs.radius, attrs.radius, basePaint)
