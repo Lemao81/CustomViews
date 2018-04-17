@@ -22,6 +22,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    libraryVariants.all { variant ->
+        if (variant.name == rootProject.ext.create) {
+            variant.outputs.each { output ->
+                output.outputFileName = "${archivesBaseName}.aar"
+            }
+        }
+    }
+
+    variantFilter { variant ->
+        if (variant.buildType.name == rootProject.ext.ignore)
+            variant.setIgnore(true)
+    }
 }
 
 dependencies {

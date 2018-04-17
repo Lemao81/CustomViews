@@ -30,6 +30,10 @@ android {
             manifest.srcFile 'src/main/AndroidManifest.xml'
         }
     }
+    variantFilter { variant ->
+        if (variant.buildType.name == rootProject.ext.ignore)
+            variant.setIgnore(true)
+    }
 }
 
 dependencies {
@@ -38,4 +42,6 @@ dependencies {
     implementation Libs.kotlinStd
     implementation Libs.appcompat
     implementation Libs.constraintLayout
+    implementation Libs.gridLayout
+    implementation Libs.rxJava
 }

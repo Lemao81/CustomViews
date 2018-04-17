@@ -6,7 +6,7 @@ object Versions {
     const val versionName = "1.0"
 
     const val gmsPlugin = "3.1.0"
-    const val gradlePlugin = "3.1.0"
+    const val gradlePlugin = "3.1.1"
     const val fabricPlugin = "1.24.4"
 
     const val java = "1.8"
@@ -60,6 +60,7 @@ object Libs {
     const val supportAnnotations = "com.android.support:support-annotations:${Versions.support}"
     const val exifinterface = "com.android.support:exifinterface:${Versions.support}"
     const val constraintLayout = "com.android.support.constraint:constraint-layout:${Versions.constraintLayout}"
+    const val gridLayout = "com.android.support:gridlayout-v7:${Versions.support}"
     const val databindingCompiler = "com.android.databinding:compiler:${Versions.databindingCompiler}"
     const val firebaseCore = "com.google.firebase:firebase-core:${Versions.firebase}"
     const val firebaseDatabase = "com.google.firebase:firebase-database:${Versions.firebase}"
