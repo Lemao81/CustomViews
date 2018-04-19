@@ -7,6 +7,7 @@ import com.jueggs.customview.rangebar.R
 import com.jueggs.customview.rangebar.util.*
 
 class ThumbAttributes(context: Context, a: TypedArray) {
+    val mode = a.getInteger(R.styleable.RangeBar_mode, MODE_SMOOTH)
     val diameter = a.getDimensionPixelSize(R.styleable.RangeBar_thumbDiameter, context.dpToPixel(DEFAULT_THUMB_DIAMETER))
     val radius = diameter / 2
     val margin = diameter / 6

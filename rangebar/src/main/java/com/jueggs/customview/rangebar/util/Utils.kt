@@ -36,7 +36,7 @@ fun Context.getColorCompat(@ColorRes resId: Int) = ContextCompat.getColor(this, 
 
 fun isLollipopOrAbove(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
 
-fun rangeCrop(bottomLimit: Int, topLimit: Int, value: Int) = Math.min(Math.max(bottomLimit, value), topLimit)
+fun rangeCrop(bottomLimit: Float, topLimit: Float, value: Float) = Math.min(Math.max(bottomLimit, value), topLimit)
 
 fun View.animateScaleBounceOut(duration: Long = 150, scale: Float = 1.1f, tension: Float = 6f) {
     animate().apply {

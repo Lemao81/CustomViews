@@ -7,7 +7,7 @@
     tools:context=".TestRangeBarActivity">
 
     <com.jueggs.customview.rangebar.RangeBar
-        android:id="@+id/rangebar"
+        android:id="@+id/rangebarSmooth"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,6 +19,26 @@
 
     </com.jueggs.customview.rangebar.RangeBar>
 
+    <com.jueggs.customview.rangebar.RangeBar
+        android:id="@+id/rangebarSnap"
+        app:mode="snap"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rangebarSmooth">
+
+    </com.jueggs.customview.rangebar.RangeBar>
+
+    <com.jueggs.customview.rangebar.RangeBar
+        app:mode="raster"
+        android:id="@+id/rangebarRaster"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rangebarSnap" />
+
     <TableLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -26,7 +46,7 @@
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rangebar">
+        app:layout_constraintTop_toBottomOf="@+id/rangebarRaster">
 
         <TableRow
             android:layout_width="match_parent"
@@ -181,18 +201,18 @@
 
             <Button
                 android:id="@+id/setMin"
-                android:onClick="setMin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="setMin"
                 android:text="Set Min" />
 
             <Button
                 android:id="@+id/setMax"
-                android:onClick="setMax"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="setMax"
                 android:text="Set Max" />
         </TableRow>
 
@@ -202,18 +222,18 @@
 
             <Button
                 android:id="@+id/getMin"
-                android:onClick="getMin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="getMin"
                 android:text="Get Min" />
 
             <Button
                 android:id="@+id/getMax"
-                android:onClick="getMax"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="getMax"
                 android:text="Get Max" />
         </TableRow>
 

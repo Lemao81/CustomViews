@@ -6,8 +6,9 @@ import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
+import com.jueggs.customview.rangebar.DEFAULT_BAR_HEIGHT
 import com.jueggs.customview.rangebar.attribute.BarAttributes
-import com.jueggs.customview.rangebar.util.measureView
+import com.jueggs.customview.rangebar.util.*
 
 class Bar(context: Context, private val attrs: BarAttributes) : View(context) {
     private val baseBounds = RectF(0f, 0f, 0f, attrs.heightF)
@@ -24,10 +25,8 @@ class Bar(context: Context, private val attrs: BarAttributes) : View(context) {
         }
     }
 
-    fun initWidthAndRange(startMinRange: Int, startMaxRange: Int) {
+    fun init() {
         baseBounds.right = width.toFloat()
-        rangeBounds.left = startMinRange
-        rangeBounds.right = startMaxRange
     }
 
     fun setLeftRange(position: Int) {
@@ -43,7 +42,11 @@ class Bar(context: Context, private val attrs: BarAttributes) : View(context) {
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) = measureView(widthMeasureSpec, heightMeasureSpec, baseBounds.right.toInt(), attrs.height, this::setMeasuredDimension)
 
     override fun onDraw(canvas: Canvas) {
-        canvas.drawRoundRect(baseBounds, attrs.radius, attrs.radius, basePaint)
-        canvas.drawRect(rangeBounds, rangePaint)
+        if (isInEditMode) {
+            canvas.drawRect(0f, 0f, 720f, context.dpToPixel(DEFAULT_BAR_HEIGHT).toFloat(), rangePaint)
+        } else {
+            canvas.drawRoundRect(baseBounds, attrs.radius, attrs.radius, basePaint)
+            canvas.drawRect(rangeBounds, rangePaint)
+        }
     }
 }

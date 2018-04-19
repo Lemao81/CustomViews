@@ -4,29 +4,29 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import com.jueggs.customview.rangebar.attribute.*
-import com.jueggs.customview.rangebar.helper.ValueTransformer
+import com.jueggs.customview.rangebar.helper.*
 import com.jueggs.customview.rangebar.util.doOnGlobalLayout
 import com.jueggs.customview.rangebar.view.*
 import io.reactivex.Observable
 import io.reactivex.disposables.*
+import java.util.*
 
 class RangeBar(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
     private lateinit var thumbAttrs: ThumbAttributes
     private lateinit var barAttrs: BarAttributes
-    private var valueTransformer: ValueTransformer
     private var initialized = false
     private lateinit var bar: Bar
-    internal lateinit var leftThumb: LeftThumb
-    internal lateinit var rightThumb: RightThumb
-    internal var rangeLeftEdge: Int = 0
-    internal var rangeRightEdge: Int = 0
+    private lateinit var leftThumb: Thumb
+    private lateinit var rightThumb: Thumb
+    private var rangeLeftEdge: Int = 0
+    private var rangeRightEdge: Int = 0
     private var disposables: CompositeDisposable? = null
+    private var valuePoints: LinkedList<ValuePoint> = LinkedList()
 
     init {
         obtainAttributes(context, attrs)
-        valueTransformer = ValueTransformer(barAttrs)
         createAndAddViews(context)
-        doOnGlobalLayout { if (!initialized) initialized = onGlobalLayout() }
+        doOnGlobalLayout { if (!initialized) initialized = init() }
     }
 
     private fun obtainAttributes(context: Context, attrs: AttributeSet) {
@@ -38,20 +38,16 @@ class RangeBar(context: Context, attrs: AttributeSet) : FrameLayout(context, att
 
     private fun createAndAddViews(context: Context) {
         bar = Bar(context, barAttrs).apply { addView(this) }
-        leftThumb = LeftThumb(context, this, thumbAttrs, valueTransformer).apply { addView(this) }
-        rightThumb = RightThumb(context, this, thumbAttrs, valueTransformer).apply { addView(this) }
+        val thumbFactory = ThumbFactory.getInstance(thumbAttrs)
+        leftThumb = thumbFactory.create(context, { rangeLeftEdge }, { rightThumb.position }).apply { addView(this) }
+        rightThumb = thumbFactory.create(context, { leftThumb.position }, { rangeRightEdge }).apply { addView(this) }
     }
 
-    private fun onGlobalLayout(): Boolean {
-        valueTransformer.width = width
-        val rangeMinPosition = valueTransformer.valueToPosition(barAttrs.rangeMin)
-        val rangeMaxPosition = valueTransformer.valueToPosition(barAttrs.rangeMax)
+    private fun init(): Boolean {
+        createValuePoints()
 
         rangeLeftEdge = thumbAttrs.margin
         rangeRightEdge = width - thumbAttrs.rightEdgeOffset
-        leftThumb.position = rangeMinPosition
-        rightThumb.position = rangeMaxPosition
-        bar.initWidthAndRange(rangeMinPosition, rangeMaxPosition)
 
         disposables = CompositeDisposable()
         disposables?.add(leftThumb.observePositionChanging().subscribe { position ->
@@ -63,7 +59,49 @@ class RangeBar(context: Context, attrs: AttributeSet) : FrameLayout(context, att
             requestLayout()
         })
 
+        bar.init()
+        leftThumb.init(valuePoints.single { it.value == barAttrs.rangeMin })
+        rightThumb.init(valuePoints.single { it.value == barAttrs.rangeMax })
+
         return true
+    }
+
+    private fun createValuePoints() {
+        val offset = thumbAttrs.margin.toFloat()
+        val interval = (bar.width / (barAttrs.totalMax - barAttrs.totalMin)).toFloat()
+        valuePoints.addFirst(ValuePoint(barAttrs.totalMin, offset, interval, null, null))
+
+        val width = bar.width.toFloat()
+        var prev = valuePoints.first
+        for (i in barAttrs.totalMin + 1 until barAttrs.totalMax) {
+            val position = (i - barAttrs.totalMin) * interval + offset
+            valuePoints.add(ValuePoint(i, position, interval, prev, null))
+            prev.next = valuePoints.last
+            prev = prev.next
+        }
+        valuePoints.addLast(ValuePoint(barAttrs.totalMax, width, (width - prev.range.second) * 2, prev, null))
+    }
+
+    fun getMin() = leftThumb.valuePoint.value
+
+    fun getMax() = rightThumb.valuePoint.value
+
+    fun setMin(value: Int) {
+        if (getMax() < value) return
+        val valuePoint = valuePoints.singleOrNull { it.value == value }
+        if (valuePoint != null) {
+            leftThumb.changeValuePoint(valuePoint)
+            leftThumb.valueChangedPublisher.onNext(valuePoint.value)
+        }
+    }
+
+    fun setMax(value: Int) {
+        if (getMin() > value) return
+        val valuePoint = valuePoints.singleOrNull { it.value == value }
+        if (valuePoint != null) {
+            rightThumb.changeValuePoint(valuePoint)
+            rightThumb.valueChangedPublisher.onNext(valuePoint.value)
+        }
     }
 
     fun observeMinChanging(): Observable<Int> = leftThumb.observeValueChanging().distinctUntilChanged()
@@ -78,29 +116,7 @@ class RangeBar(context: Context, attrs: AttributeSet) : FrameLayout(context, att
 
     fun observeRangeChanged(): Observable<Pair<Int, Int>> = Observable.merge(observeMinChanged(), observeMaxChanged()).map { getRangeValues() }
 
-    private fun getRangeValues(): Pair<Int, Int> = Pair(leftThumb.value, rightThumb.value)
-
-    fun getMin() = leftThumb.value
-
-    fun getMax() = rightThumb.value
-
-    fun setMin(value: Int) {
-        if (getMax() < value) return
-        val position = valueTransformer.valueToPosition(value)
-        leftThumb.position = position
-        bar.setLeftRange(position)
-        requestLayout()
-        leftThumb.valueChangedPublisher.onNext(getMin())
-    }
-
-    fun setMax(value: Int) {
-        if (getMin() > value) return
-        val position = valueTransformer.valueToPosition(value)
-        rightThumb.position = position
-        bar.setRightRange(position)
-        requestLayout()
-        rightThumb.valueChangedPublisher.onNext(getMax())
-    }
+    private fun getRangeValues(): Pair<Int, Int> = Pair(getMin(), getMax())
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
