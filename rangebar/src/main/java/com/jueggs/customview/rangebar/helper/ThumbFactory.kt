@@ -5,21 +5,13 @@ import com.jueggs.customview.rangebar.*
 import com.jueggs.customview.rangebar.attribute.ThumbAttributes
 import com.jueggs.customview.rangebar.view.*
 
-class ThumbFactory private constructor(private val attrs: ThumbAttributes) {
+class ThumbFactory(context: Context?, private val attrs: ThumbAttributes) : ContextDisposable(context) {
 
-    fun create(context: Context, leftEdge: () -> Int, rightEdge: () -> Int) = when (attrs.mode) {
-        MODE_SNAP -> SnapThumb(context, attrs, leftEdge, rightEdge)
-        MODE_RASTER -> RasterThumb(context, attrs, leftEdge, rightEdge)
-        else -> SmoothThumb(context, attrs, leftEdge, rightEdge)
-    }
-
-    companion object {
-        private var INSTANCE: ThumbFactory? = null
-
-        fun getInstance(attrs: ThumbAttributes): ThumbFactory {
-            if (INSTANCE == null)
-                INSTANCE = ThumbFactory(attrs)
-            return INSTANCE!!
+    fun create(leftEdge: () -> Int, rightEdge: () -> Int): Thumb {
+        return when (attrs.mode) {
+            MODE_SNAP -> SnapThumb(context!!, attrs, leftEdge, rightEdge)
+            MODE_RASTER -> RasterThumb(context!!, attrs, leftEdge, rightEdge)
+            else -> SmoothThumb(context!!, attrs, leftEdge, rightEdge)
         }
     }
 }

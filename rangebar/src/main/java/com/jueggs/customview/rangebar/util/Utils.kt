@@ -5,7 +5,7 @@ import android.os.Build
 import android.support.annotation.ColorRes
 import android.support.v4.content.ContextCompat
 import android.util.TypedValue
-import android.view.View
+import android.view.*
 import android.view.animation.AnticipateInterpolator
 
 fun measureView(widthMeasureSpec: Int, heightMeasureSpec: Int, desiredWidth: Int, desiredHeight: Int, setMeasuredDimension: (Int, Int) -> Unit) {
@@ -58,4 +58,20 @@ fun View.animateScaleBounceIn(duration: Long = 150, scale: Float = 0.91f, tensio
     }
 }
 
-fun View.doOnGlobalLayout(action: () -> Unit) = viewTreeObserver.addOnGlobalLayoutListener(action)
+inline fun View.doOnGlobalLayout(crossinline action: () -> Unit) {
+    val vto = viewTreeObserver
+    vto.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        override fun onGlobalLayout() {
+            action()
+            when {
+                vto.isAlive -> vto.removeOnGlobalLayoutListener(this)
+                else -> viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        }
+    })
+}
+
+inline fun <reified T : ViewGroup.LayoutParams> View.layoutParams(): T {
+    assert(layoutParams is T)
+    return layoutParams as T
+}

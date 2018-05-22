@@ -4,46 +4,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="8dp"
     tools:context=".TestRangeBarActivity">
 
+    <TextView
+        android:id="@+id/lblSmooth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Smooth"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--smooth-->
     <com.jueggs.customview.rangebar.RangeBar
         android:id="@+id/rangebarSmooth"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblSmooth"
         app:rangeMax="48"
         app:rangeMin="23"
         app:totalMax="65"
-        app:totalMin="18">
+        app:totalMin="18" />
 
-    </com.jueggs.customview.rangebar.RangeBar>
+    <TextView
+        android:id="@+id/lblSnap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Snap"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rangebarSmooth" />
 
+    <!--snap-->
     <com.jueggs.customview.rangebar.RangeBar
         android:id="@+id/rangebarSnap"
-        app:mode="snap"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rangebarSmooth">
+        app:layout_constraintTop_toBottomOf="@+id/lblSnap"
+        app:mode="snap"
+        app:totalMax="6"
+        app:totalMin="1" />
 
-    </com.jueggs.customview.rangebar.RangeBar>
+    <TextView
+        android:id="@+id/lblRaster"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Raster"
+        app:layout_constraintTop_toBottomOf="@+id/rangebarSnap" />
 
+    <!--raster-->
     <com.jueggs.customview.rangebar.RangeBar
-        app:mode="raster"
         android:id="@+id/rangebarRaster"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rangebarSnap" />
+        app:layout_constraintTop_toBottomOf="@+id/lblRaster"
+        app:mode="raster"
+        app:totalMax="15"
+        app:totalMin="0" />
 
     <TableLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rangebarRaster">

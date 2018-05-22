@@ -3,6 +3,7 @@ package com.jueggs.customview.rangebar
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
+import androidx.core.content.withStyledAttributes
 import com.jueggs.customview.rangebar.attribute.*
 import com.jueggs.customview.rangebar.helper.*
 import com.jueggs.customview.rangebar.util.doOnGlobalLayout
@@ -14,7 +15,6 @@ import java.util.*
 class RangeBar(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
     private lateinit var thumbAttrs: ThumbAttributes
     private lateinit var barAttrs: BarAttributes
-    private var initialized = false
     private lateinit var bar: Bar
     private lateinit var leftThumb: Thumb
     private lateinit var rightThumb: Thumb
@@ -26,24 +26,25 @@ class RangeBar(context: Context, attrs: AttributeSet) : FrameLayout(context, att
     init {
         obtainAttributes(context, attrs)
         createAndAddViews(context)
-        doOnGlobalLayout { if (!initialized) initialized = init() }
+        doOnGlobalLayout(::initialize)
     }
 
     private fun obtainAttributes(context: Context, attrs: AttributeSet) {
-        val a = context.obtainStyledAttributes(attrs, R.styleable.RangeBar)
-        thumbAttrs = ThumbAttributes(context, a)
-        barAttrs = BarAttributes(context, a, thumbAttrs)
-        a.recycle()
+        context.withStyledAttributes(attrs, R.styleable.RangeBar) {
+            thumbAttrs = ThumbAttributes(context, this)
+            barAttrs = BarAttributes(context, this, thumbAttrs)
+        }
     }
 
     private fun createAndAddViews(context: Context) {
         bar = Bar(context, barAttrs).apply { addView(this) }
-        val thumbFactory = ThumbFactory.getInstance(thumbAttrs)
-        leftThumb = thumbFactory.create(context, { rangeLeftEdge }, { rightThumb.position }).apply { addView(this) }
-        rightThumb = thumbFactory.create(context, { leftThumb.position }, { rangeRightEdge }).apply { addView(this) }
+        ThumbFactory(context, thumbAttrs).use { f ->
+            leftThumb = f.create({ rangeLeftEdge }, { rightThumb.position }).apply { addView(this) }
+            rightThumb = f.create({ leftThumb.position }, { rangeRightEdge }).apply { addView(this) }
+        }
     }
 
-    private fun init(): Boolean {
+    private fun initialize() {
         createValuePoints()
 
         rangeLeftEdge = thumbAttrs.margin
@@ -59,27 +60,26 @@ class RangeBar(context: Context, attrs: AttributeSet) : FrameLayout(context, att
             requestLayout()
         })
 
-        bar.init()
-        leftThumb.init(valuePoints.single { it.value == barAttrs.rangeMin })
-        rightThumb.init(valuePoints.single { it.value == barAttrs.rangeMax })
-
-        return true
+        bar.initialize()
+        leftThumb.initialize(valuePoints.single { it.value == barAttrs.rangeMin })
+        rightThumb.initialize(valuePoints.single { it.value == barAttrs.rangeMax })
     }
 
     private fun createValuePoints() {
-        val offset = thumbAttrs.margin.toFloat()
-        val interval = (bar.width / (barAttrs.totalMax - barAttrs.totalMin)).toFloat()
-        valuePoints.addFirst(ValuePoint(barAttrs.totalMin, offset, interval, null, null))
-
         val width = bar.width.toFloat()
-        var prev = valuePoints.first
-        for (i in barAttrs.totalMin + 1 until barAttrs.totalMax) {
-            val position = (i - barAttrs.totalMin) * interval + offset
-            valuePoints.add(ValuePoint(i, position, interval, prev, null))
-            prev.next = valuePoints.last
-            prev = prev.next
+        val offset = thumbAttrs.margin.toFloat()
+        val steps = barAttrs.totalMax - barAttrs.totalMin
+        val interval = width / steps
+
+        for (i in 0 until steps) {
+            val value = i + barAttrs.totalMin
+            val position = offset + i * interval
+            valuePoints.add(ValuePoint(value, position, interval, valuePoints))
         }
-        valuePoints.addLast(ValuePoint(barAttrs.totalMax, width, (width - prev.range.second) * 2, prev, null))
+
+        val lastPosition = offset + width
+        val lastInterval = (lastPosition - valuePoints.last.range.second) * 2
+        valuePoints.addLast(ValuePoint(barAttrs.totalMax, lastPosition, lastInterval, valuePoints))
     }
 
     fun getMin() = leftThumb.valuePoint.value

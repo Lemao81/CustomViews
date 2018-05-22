@@ -25,7 +25,7 @@ class Bar(context: Context, private val attrs: BarAttributes) : View(context) {
         }
     }
 
-    fun init() {
+    fun initialize() {
         baseBounds.right = width.toFloat()
     }
 

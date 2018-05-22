@@ -10,19 +10,20 @@ import com.jueggs.customview.rangebar.util.*
 import io.reactivex.Observable
 import io.reactivex.subjects.*
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import androidx.core.view.*
 import com.jueggs.customview.rangebar.helper.*
-import java.nio.file.Files.move
 
 abstract class Thumb(context: Context, private val attrs: ThumbAttributes, private var leftEdge: () -> Int, private var rightEdge: () -> Int) : View(context) {
     private var paint: Paint = Paint().apply { color = attrs.color; style = Paint.Style.FILL }
+    private var compoundTouchListener: CompoundTouchListener
     protected var positionChangingPublisher: Subject<Int> = PublishSubject.create()
-    private var valueChangingPublisher: Subject<Int> = PublishSubject.create()
+    protected var valueChangingPublisher: Subject<Int> = PublishSubject.create()
     internal val valueChangedPublisher: Subject<Int> = PublishSubject.create()
 
     var position: Int
-        get() = (layoutParams as FrameLayout.LayoutParams).leftMargin
+        get() = layoutParams<FrameLayout.LayoutParams>().leftMargin
         set(value) {
-            (layoutParams as FrameLayout.LayoutParams).leftMargin = value
+            updateLayoutParams<FrameLayout.LayoutParams> { leftMargin = value }
         }
 
     open var valuePoint: ValuePoint = ValuePoint.EMPTY
@@ -34,21 +35,20 @@ abstract class Thumb(context: Context, private val attrs: ThumbAttributes, priva
     init {
         layoutParams = FrameLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply { setMargins(attrs.margin, attrs.margin, attrs.margin, attrs.margin) }
 
-        CompoundTouchListener().apply {
+        compoundTouchListener = CompoundTouchListener().apply {
             add(TapDownListener { animateScaleBounceOut() })
             add(VerticalMoveListener { move(it) })
             add(TapUpListener {
                 animateScaleBounceIn()
                 valueChangedPublisher.onNext(valuePoint.value)
             })
-            addTouchListener()?.let { add(this) }
             setOnTouchListener(this)
         }
     }
 
-    open fun addTouchListener(): OnTouchListener? = null
+    fun addTouchListener(listener: OnTouchListener) = compoundTouchListener.add(listener)
 
-    fun init(valuePoint: ValuePoint) = changeValuePoint(valuePoint)
+    fun initialize(valuePoint: ValuePoint) = changeValuePoint(valuePoint)
 
     fun changeValuePoint(valuePoint: ValuePoint) {
         this.valuePoint = valuePoint
@@ -60,36 +60,43 @@ abstract class Thumb(context: Context, private val attrs: ThumbAttributes, priva
 
     protected fun translationRangeCrop(dx: Float) = rangeCrop((leftEdge() - position).toFloat(), (rightEdge() - position).toFloat(), dx)
 
-    protected fun findValuePoint(prev: ValuePoint?, next: ValuePoint?, position: Float) {
-        if (prev == null) return searchForward(next, position)
-        if (next == null) return searchBackward(prev, position)
-        searchBothDirections(prev, next, position)
+    protected fun findAndSetValuePoint(backwardIterator: ListIterator<ValuePoint>, forwardIterator: ListIterator<ValuePoint>, position: Float) {
+        if (!backwardIterator.hasPrevious() && forwardIterator.hasNext())
+            return searchForward(forwardIterator, position)
+        if (!forwardIterator.hasNext() && backwardIterator.hasPrevious())
+            return searchBackward(backwardIterator, position)
+        if (backwardIterator.hasPrevious() && forwardIterator.hasNext())
+            searchBothDirections(backwardIterator, forwardIterator, position)
     }
 
-    private fun searchForward(next: ValuePoint?, position: Float) {
-        if (next == null) return
+    private fun searchForward(iterator: ListIterator<ValuePoint>, position: Float) {
+        val next = iterator.next()
         if (next.contains(position)) {
             valuePoint = next; return
         }
-        searchForward(next.next, position)
+        if (iterator.hasNext())
+            searchForward(iterator, position)
     }
 
-    private fun searchBackward(prev: ValuePoint?, position: Float) {
-        if (prev == null) return
+    private fun searchBackward(iterator: ListIterator<ValuePoint>, position: Float) {
+        val prev = iterator.previous()
         if (prev.contains(position)) {
             valuePoint = prev; return
         }
-        searchBackward(prev.prev, position)
+        if (iterator.hasPrevious())
+            searchBackward(iterator, position)
     }
 
-    private fun searchBothDirections(prev: ValuePoint, next: ValuePoint, position: Float) {
+    private fun searchBothDirections(backwardIterator: ListIterator<ValuePoint>, forwardIterator: ListIterator<ValuePoint>, position: Float) {
+        val prev = backwardIterator.previous()
         if (prev.contains(position)) {
             valuePoint = prev; return
         }
+        val next = forwardIterator.next()
         if (next.contains(position)) {
             valuePoint = next; return
         }
-        findValuePoint(prev.prev, next.next, position)
+        findAndSetValuePoint(backwardIterator, forwardIterator, position)
     }
 
     fun observePositionChanging(): Observable<Int> = positionChangingPublisher

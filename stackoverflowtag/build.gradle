@@ -1,17 +1,16 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'maven'
+apply plugin: 'custom-archivaupload'
 
 android {
     compileSdkVersion Versions.compileSdkVersion
     defaultConfig {
-        applicationId "com.jueggs.customview"
         minSdkVersion Versions.minSdkVersion
         targetSdkVersion Versions.targetSdkVersion
         versionCode Versions.versionCode
         versionName Versions.versionName
-
-        javaCompileOptions { annotationProcessorOptions.includeCompileClasspath = true }
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -24,17 +23,14 @@ android {
 }
 
 dependencies {
-    implementation project(":rangebar")
-
     implementation Libs.kotlinStd8
     implementation Libs.appcompat
-    implementation Libs.constraintLayout
-    implementation Libs.gridLayout
-    implementation Libs.rxJava
+    implementation Libs.anko
     implementation Libs.andutils
-//    version conflicts (1.1.0 -> 1.1.1)
-    implementation Libs.archLiveDataCore
-    implementation Libs.archLifecycleRuntime
-    implementation Libs.archLifecycleViewModel
-//
 }
+
+archiva {
+    groupId = "com.jueggs.customview"
+    artifactId = "stackoverflowtag"
+}
+uploadArchives { repositories { mavenDeployer() } }
