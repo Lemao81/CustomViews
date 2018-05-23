@@ -34,22 +34,22 @@ class TestRangeBarActivity : AppCompatActivity() {
     }
 
     fun setMin(View: View) {
-        rangebarSmooth.setMin(33)
-        rangebarSnap.setMin(33)
-        rangebarRaster.setMin(33)
+        rangebarSmooth.setRangeMin(33)
+        rangebarSnap.setRangeMin(33)
+        rangebarRaster.setRangeMin(33)
     }
 
     fun setMax(View: View) {
-        rangebarSmooth.setMax(55)
-        rangebarSnap.setMax(55)
-        rangebarRaster.setMax(55)
+        rangebarSmooth.setRangeMax(55)
+        rangebarSnap.setRangeMax(55)
+        rangebarRaster.setRangeMax(55)
     }
 
     fun getMin(View: View) {
-        currentMin.text = rangebarSmooth.getMin().toString()
+        currentMin.text = rangebarSmooth.getRangeMin().toString()
     }
 
     fun getMax(View: View) {
-        currentMax.text = rangebarSmooth.getMax().toString()
+        currentMax.text = rangebarSmooth.getRangeMax().toString()
     }
 }

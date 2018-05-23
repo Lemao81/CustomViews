@@ -19,6 +19,6 @@ class SmoothThumb(context: Context, attrs: ThumbAttributes, leftEdge: () -> Int,
         positionChangingPublisher.onNext(newPosition.toInt())
 
         if (!valuePoint.contains(newPosition))
-            findAndSetValuePoint(valuePoint.iterator(), valuePoint.iterator(), newPosition)
+            valuePointFinder.findValuePoint(valuePoint.iterator(), valuePoint.iterator(), newPosition)?.let { valuePoint = it }
     }
 }

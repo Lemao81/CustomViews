@@ -18,14 +18,14 @@ class BarAttributes(context: Context, a: TypedArray, thumbAttrs: ThumbAttributes
         assert(isRangeMinDefined == isRangeMaxDefined, { "Both rangeMin and rangeMax need to be defined or none of them" })
     }
 
-    val height: Int = Math.min(a.getDimensionPixelSize(R.styleable.RangeBar_barHeight, context.dpToPixel(DEFAULT_BAR_HEIGHT)), thumbAttrs.diameter)
-    val heightF: Float = height.toFloat()
-    val radius: Float = a.getInteger(R.styleable.RangeBar_barRadius, DEFAULT_BAR_RADIUS).toFloat()
-    val margin: Int = thumbAttrs.radius + thumbAttrs.margin
-    val baseColor: Int = a.getColor(R.styleable.RangeBar_barBaseColor, context.getColorCompat(R.color.default_bar_base_color))
-    val rangeColor: Int = a.getColor(R.styleable.RangeBar_barRangeColor, context.getColorCompat(R.color.default_bar_range_color))
-    val totalMin: Int = a.getInteger(R.styleable.RangeBar_totalMin, DEFAULT_TOTAL_MIN)
-    val totalMax: Int = Math.max(a.getInteger(R.styleable.RangeBar_totalMax, DEFAULT_TOTAL_MAX), totalMin)
-    val rangeMin: Int = Math.max(a.getInteger(R.styleable.RangeBar_rangeMin, totalMin), totalMin)
-    val rangeMax: Int = Math.min(a.getInteger(R.styleable.RangeBar_rangeMax, totalMax), totalMax)
+    val height = Math.min(a.getDimensionPixelSize(R.styleable.RangeBar_barHeight, context.dpToPixel(DEFAULT_BAR_HEIGHT)), thumbAttrs.diameter)
+    val heightF = height.toFloat()
+    val radius = a.getInteger(R.styleable.RangeBar_barRadius, DEFAULT_BAR_RADIUS).toFloat()
+    val margin = thumbAttrs.radius + thumbAttrs.margin
+    val baseColor = a.getColor(R.styleable.RangeBar_barBaseColor, context.getColorCompat(R.color.default_bar_base_color))
+    val rangeColor = a.getColor(R.styleable.RangeBar_barRangeColor, context.getColorCompat(R.color.default_bar_range_color))
+    val totalMin = a.getInteger(R.styleable.RangeBar_totalMin, DEFAULT_TOTAL_MIN)
+    val totalMax = Math.max(a.getInteger(R.styleable.RangeBar_totalMax, DEFAULT_TOTAL_MAX), totalMin)
+    val rangeMin = Math.max(a.getInteger(R.styleable.RangeBar_rangeMin, totalMin), totalMin)
+    val rangeMax = Math.min(a.getInteger(R.styleable.RangeBar_rangeMax, totalMax), totalMax)
 }

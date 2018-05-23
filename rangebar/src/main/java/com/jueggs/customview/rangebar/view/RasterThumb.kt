@@ -7,13 +7,6 @@ import com.jueggs.customview.rangebar.util.TapUpListener
 
 class RasterThumb(context: Context, attrs: ThumbAttributes, leftEdge: () -> Int, rightEdge: () -> Int) : Thumb(context, attrs, leftEdge, rightEdge) {
 
-    init {
-        addTouchListener(TapUpListener {
-            position = valuePoint.position.toInt()
-            translationX = 0f
-        })
-    }
-
     override var valuePoint: ValuePoint = ValuePoint.EMPTY
         set(value) {
             field = value
@@ -21,12 +14,20 @@ class RasterThumb(context: Context, attrs: ThumbAttributes, leftEdge: () -> Int,
             positionChangingPublisher.onNext(value.position.toInt())
         }
 
+    init {
+        addTouchListener(TapUpListener {
+            position = valuePoint.position.toInt()
+            translationX = 0f
+        })
+    }
+
     override fun move(dx: Float) {
         val newPosition = position + translationRangeCrop(dx)
 
-        if (!valuePoint.contains(newPosition)) {
-            findAndSetValuePoint(valuePoint.iterator(), valuePoint.iterator(), newPosition)
-            translationX = valuePoint.position - position
-        }
+        if (!valuePoint.contains(newPosition))
+            valuePointFinder.findValuePoint(valuePoint.iterator(), valuePoint.iterator(), newPosition)?.let {
+                valuePoint = it
+                translationX = it.position - position
+            }
     }
 }

@@ -11,7 +11,7 @@ class ThumbAttributes(context: Context, a: TypedArray) {
     val diameter = a.getDimensionPixelSize(R.styleable.RangeBar_thumbDiameter, context.dpToPixel(DEFAULT_THUMB_DIAMETER))
     val radius = diameter / 2
     val margin = diameter / 6
-    val rightEdgeOffset = diameter + 2 * margin
+    val rightEdgeOffset = diameter + margin
     val radiusF = radius.toFloat()
     val color = a.getColor(R.styleable.RangeBar_thumbColor, context.getColorCompat(R.color.default_thumb_color))
 }

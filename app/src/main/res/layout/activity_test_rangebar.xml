@@ -25,6 +25,7 @@
         app:layout_constraintTop_toBottomOf="@+id/lblSmooth"
         app:rangeMax="48"
         app:rangeMin="23"
+        app:thumbDiameter="20dp"
         app:totalMax="65"
         app:totalMin="18" />
 
@@ -41,10 +42,14 @@
         android:id="@+id/rangebarSnap"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        app:barBaseColor="#349834"
+        app:barHeight="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblSnap"
         app:mode="snap"
+        app:rangeMax="5"
+        app:rangeMin="2"
         app:totalMax="6"
         app:totalMin="1" />
 
@@ -60,6 +65,7 @@
         android:id="@+id/rangebarRaster"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:barRangeColor="#872245"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblRaster"

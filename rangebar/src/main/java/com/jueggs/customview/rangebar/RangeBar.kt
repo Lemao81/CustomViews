@@ -6,7 +6,6 @@ import android.widget.FrameLayout
 import androidx.core.content.withStyledAttributes
 import com.jueggs.customview.rangebar.attribute.*
 import com.jueggs.customview.rangebar.helper.*
-import com.jueggs.customview.rangebar.util.doOnGlobalLayout
 import com.jueggs.customview.rangebar.view.*
 import io.reactivex.Observable
 import io.reactivex.disposables.*
@@ -20,13 +19,12 @@ class RangeBar(context: Context, attrs: AttributeSet) : FrameLayout(context, att
     private lateinit var rightThumb: Thumb
     private var rangeLeftEdge: Int = 0
     private var rangeRightEdge: Int = 0
-    private var disposables: CompositeDisposable? = null
-    private var valuePoints: LinkedList<ValuePoint> = LinkedList()
+    private var disposables = CompositeDisposable()
 
     init {
         obtainAttributes(context, attrs)
         createAndAddViews(context)
-        doOnGlobalLayout(::initialize)
+        initialize()
     }
 
     private fun obtainAttributes(context: Context, attrs: AttributeSet) {
@@ -37,71 +35,53 @@ class RangeBar(context: Context, attrs: AttributeSet) : FrameLayout(context, att
     }
 
     private fun createAndAddViews(context: Context) {
-        bar = Bar(context, barAttrs).apply { addView(this) }
         ThumbFactory(context, thumbAttrs).use { f ->
             leftThumb = f.create({ rangeLeftEdge }, { rightThumb.position }).apply { addView(this) }
             rightThumb = f.create({ leftThumb.position }, { rangeRightEdge }).apply { addView(this) }
         }
+
+        bar = Bar(context, barAttrs, thumbAttrs, leftThumb, rightThumb).apply { addView(this, 0) }
     }
 
     private fun initialize() {
-        createValuePoints()
-
         rangeLeftEdge = thumbAttrs.margin
-        rangeRightEdge = width - thumbAttrs.rightEdgeOffset
 
-        disposables = CompositeDisposable()
-        disposables?.add(leftThumb.observePositionChanging().subscribe { position ->
+        disposables.add(leftThumb.observePositionChanging().subscribe { position ->
             bar.setLeftRange(position)
             requestLayout()
         })
-        disposables?.add(rightThumb.observePositionChanging().subscribe { position ->
+        disposables.add(rightThumb.observePositionChanging().subscribe { position ->
             bar.setRightRange(position)
             requestLayout()
         })
-
-        bar.initialize()
-        leftThumb.initialize(valuePoints.single { it.value == barAttrs.rangeMin })
-        rightThumb.initialize(valuePoints.single { it.value == barAttrs.rangeMax })
     }
 
-    private fun createValuePoints() {
-        val width = bar.width.toFloat()
-        val offset = thumbAttrs.margin.toFloat()
-        val steps = barAttrs.totalMax - barAttrs.totalMin
-        val interval = width / steps
-
-        for (i in 0 until steps) {
-            val value = i + barAttrs.totalMin
-            val position = offset + i * interval
-            valuePoints.add(ValuePoint(value, position, interval, valuePoints))
-        }
-
-        val lastPosition = offset + width
-        val lastInterval = (lastPosition - valuePoints.last.range.second) * 2
-        valuePoints.addLast(ValuePoint(barAttrs.totalMax, lastPosition, lastInterval, valuePoints))
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        rangeRightEdge = width - thumbAttrs.rightEdgeOffset
     }
 
-    fun getMin() = leftThumb.valuePoint.value
-
-    fun getMax() = rightThumb.valuePoint.value
-
-    fun setMin(value: Int) {
-        if (getMax() < value) return
-        val valuePoint = valuePoints.singleOrNull { it.value == value }
-        if (valuePoint != null) {
-            leftThumb.changeValuePoint(valuePoint)
-            leftThumb.valueChangedPublisher.onNext(valuePoint.value)
-        }
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        disposables.dispose()
     }
 
-    fun setMax(value: Int) {
-        if (getMin() > value) return
-        val valuePoint = valuePoints.singleOrNull { it.value == value }
-        if (valuePoint != null) {
-            rightThumb.changeValuePoint(valuePoint)
-            rightThumb.valueChangedPublisher.onNext(valuePoint.value)
-        }
+    //region API
+    fun getRangeMin() = leftThumb.valuePoint.value
+
+    fun getRangeMax() = rightThumb.valuePoint.value
+
+    fun getTotalMin() = barAttrs.totalMin
+
+    fun getTotalMax() = barAttrs.totalMax
+
+    fun setRangeMin(value: Int) {
+        if (value <= getRangeMax())
+            bar.valuePoints.singleOrNull { it.value == value }?.let { leftThumb.changeValuePoint(it) }
+    }
+
+    fun setRangeMax(value: Int) {
+        if (value >= getRangeMin())
+            bar.valuePoints.singleOrNull { it.value == value }?.let { rightThumb.changeValuePoint(it) }
     }
 
     fun observeMinChanging(): Observable<Int> = leftThumb.observeValueChanging().distinctUntilChanged()
@@ -115,11 +95,7 @@ class RangeBar(context: Context, attrs: AttributeSet) : FrameLayout(context, att
     fun observeMaxChanged(): Observable<Int> = rightThumb.observeValueChanged().distinctUntilChanged()
 
     fun observeRangeChanged(): Observable<Pair<Int, Int>> = Observable.merge(observeMinChanged(), observeMaxChanged()).map { getRangeValues() }
+    //endregion
 
-    private fun getRangeValues(): Pair<Int, Int> = Pair(getMin(), getMax())
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        disposables?.dispose()
-    }
+    private fun getRangeValues(): Pair<Int, Int> = Pair(getRangeMin(), getRangeMax())
 }

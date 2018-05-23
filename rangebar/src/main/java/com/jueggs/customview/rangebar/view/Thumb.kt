@@ -16,9 +16,10 @@ import com.jueggs.customview.rangebar.helper.*
 abstract class Thumb(context: Context, private val attrs: ThumbAttributes, private var leftEdge: () -> Int, private var rightEdge: () -> Int) : View(context) {
     private var paint: Paint = Paint().apply { color = attrs.color; style = Paint.Style.FILL }
     private var compoundTouchListener: CompoundTouchListener
+    protected var valuePointFinder = ValuePointFinder()
     protected var positionChangingPublisher: Subject<Int> = PublishSubject.create()
     protected var valueChangingPublisher: Subject<Int> = PublishSubject.create()
-    internal val valueChangedPublisher: Subject<Int> = PublishSubject.create()
+    private val valueChangedPublisher: Subject<Int> = PublishSubject.create()
 
     var position: Int
         get() = layoutParams<FrameLayout.LayoutParams>().leftMargin
@@ -54,50 +55,12 @@ abstract class Thumb(context: Context, private val attrs: ThumbAttributes, priva
         this.valuePoint = valuePoint
         position = valuePoint.position.toInt()
         positionChangingPublisher.onNext(position)
+        valueChangedPublisher.onNext(valuePoint.value)
     }
 
     abstract fun move(dx: Float)
 
     protected fun translationRangeCrop(dx: Float) = rangeCrop((leftEdge() - position).toFloat(), (rightEdge() - position).toFloat(), dx)
-
-    protected fun findAndSetValuePoint(backwardIterator: ListIterator<ValuePoint>, forwardIterator: ListIterator<ValuePoint>, position: Float) {
-        if (!backwardIterator.hasPrevious() && forwardIterator.hasNext())
-            return searchForward(forwardIterator, position)
-        if (!forwardIterator.hasNext() && backwardIterator.hasPrevious())
-            return searchBackward(backwardIterator, position)
-        if (backwardIterator.hasPrevious() && forwardIterator.hasNext())
-            searchBothDirections(backwardIterator, forwardIterator, position)
-    }
-
-    private fun searchForward(iterator: ListIterator<ValuePoint>, position: Float) {
-        val next = iterator.next()
-        if (next.contains(position)) {
-            valuePoint = next; return
-        }
-        if (iterator.hasNext())
-            searchForward(iterator, position)
-    }
-
-    private fun searchBackward(iterator: ListIterator<ValuePoint>, position: Float) {
-        val prev = iterator.previous()
-        if (prev.contains(position)) {
-            valuePoint = prev; return
-        }
-        if (iterator.hasPrevious())
-            searchBackward(iterator, position)
-    }
-
-    private fun searchBothDirections(backwardIterator: ListIterator<ValuePoint>, forwardIterator: ListIterator<ValuePoint>, position: Float) {
-        val prev = backwardIterator.previous()
-        if (prev.contains(position)) {
-            valuePoint = prev; return
-        }
-        val next = forwardIterator.next()
-        if (next.contains(position)) {
-            valuePoint = next; return
-        }
-        findAndSetValuePoint(backwardIterator, forwardIterator, position)
-    }
 
     fun observePositionChanging(): Observable<Int> = positionChangingPublisher
 
@@ -105,20 +68,7 @@ abstract class Thumb(context: Context, private val attrs: ThumbAttributes, priva
 
     fun observeValueChanged(): Observable<Int> = valueChangedPublisher
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val size = when {
-            isInEditMode -> context.dpToPixel(DEFAULT_THUMB_DIAMETER)
-            else -> attrs.diameter
-        }
-        measureView(widthMeasureSpec, heightMeasureSpec, size, size, this::setMeasuredDimension)
-    }
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) = measureView(widthMeasureSpec, heightMeasureSpec, attrs.diameter, attrs.diameter, this::setMeasuredDimension)
 
-    override fun onDraw(canvas: Canvas) {
-        if (isInEditMode) {
-            val editRadius = context.dpToPixel(DEFAULT_THUMB_DIAMETER).toFloat() / 2
-            canvas.drawCircle(editRadius, editRadius, editRadius, paint)
-        } else {
-            canvas.drawCircle(attrs.radiusF, attrs.radiusF, attrs.radiusF, paint)
-        }
-    }
+    override fun onDraw(canvas: Canvas) = canvas.drawCircle(attrs.radiusF, attrs.radiusF, attrs.radiusF, paint)
 }
