@@ -4,12 +4,12 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import androidx.core.content.withStyledAttributes
+import com.jueggs.andutils.extension.use
 import com.jueggs.customview.rangebar.attribute.*
 import com.jueggs.customview.rangebar.helper.*
 import com.jueggs.customview.rangebar.view.*
 import io.reactivex.Observable
 import io.reactivex.disposables.*
-import java.util.*
 
 class RangeBar(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
     private lateinit var thumbAttrs: ThumbAttributes

@@ -4,13 +4,14 @@ import android.content.Context
 import android.graphics.*
 import android.view.View
 import android.widget.FrameLayout
-import com.jueggs.customview.rangebar.*
 import com.jueggs.customview.rangebar.attribute.ThumbAttributes
-import com.jueggs.customview.rangebar.util.*
 import io.reactivex.Observable
 import io.reactivex.subjects.*
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.core.view.*
+import com.jueggs.andutils.extension.*
+import com.jueggs.andutils.helper.*
+import com.jueggs.andutils.measureView
 import com.jueggs.customview.rangebar.helper.*
 
 abstract class Thumb(context: Context, private val attrs: ThumbAttributes, private var leftEdge: () -> Int, private var rightEdge: () -> Int) : View(context) {
@@ -60,7 +61,7 @@ abstract class Thumb(context: Context, private val attrs: ThumbAttributes, priva
 
     abstract fun move(dx: Float)
 
-    protected fun translationRangeCrop(dx: Float) = rangeCrop((leftEdge() - position).toFloat(), (rightEdge() - position).toFloat(), dx)
+    protected fun translationRangeCrop(dx: Float) = cropToRange((leftEdge() - position).toFloat(), (rightEdge() - position).toFloat(), dx)
 
     fun observePositionChanging(): Observable<Int> = positionChangingPublisher
 

@@ -1,9 +1,9 @@
 package com.jueggs.customview.rangebar.view
 
 import android.content.Context
+import com.jueggs.andutils.helper.TapUpListener
 import com.jueggs.customview.rangebar.attribute.ThumbAttributes
 import com.jueggs.customview.rangebar.helper.*
-import com.jueggs.customview.rangebar.util.TapUpListener
 
 class RasterThumb(context: Context, attrs: ThumbAttributes, leftEdge: () -> Int, rightEdge: () -> Int) : Thumb(context, attrs, leftEdge, rightEdge) {
 

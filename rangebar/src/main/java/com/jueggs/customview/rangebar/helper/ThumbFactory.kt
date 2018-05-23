@@ -1,6 +1,7 @@
 package com.jueggs.customview.rangebar.helper
 
 import android.content.Context
+import com.jueggs.andutils.helper.ContextDisposable
 import com.jueggs.customview.rangebar.*
 import com.jueggs.customview.rangebar.attribute.ThumbAttributes
 import com.jueggs.customview.rangebar.view.*

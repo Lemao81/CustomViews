@@ -2,9 +2,9 @@ package com.jueggs.customview.rangebar.attribute
 
 import android.content.Context
 import android.content.res.TypedArray
+import com.jueggs.andutils.extension.*
 import com.jueggs.customview.rangebar.*
 import com.jueggs.customview.rangebar.R
-import com.jueggs.customview.rangebar.util.*
 
 class ThumbAttributes(context: Context, a: TypedArray) {
     val mode = a.getInteger(R.styleable.RangeBar_mode, MODE_SMOOTH)
