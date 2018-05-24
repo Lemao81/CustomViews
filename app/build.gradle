@@ -25,6 +25,7 @@ android {
 
 dependencies {
     implementation project(":rangebar")
+    implementation project(":stackoverflowtag")
 
     implementation Libs.kotlinStd8
     implementation Libs.appcompat
@@ -37,4 +38,5 @@ dependencies {
     implementation Libs.archLifecycleRuntime
     implementation Libs.archLifecycleViewModel
 //
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
 }

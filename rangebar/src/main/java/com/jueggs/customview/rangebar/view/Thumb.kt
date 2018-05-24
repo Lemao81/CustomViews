@@ -9,9 +9,9 @@ import io.reactivex.Observable
 import io.reactivex.subjects.*
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.core.view.*
+import com.jueggs.andutils.*
 import com.jueggs.andutils.extension.*
 import com.jueggs.andutils.helper.*
-import com.jueggs.andutils.measureView
 import com.jueggs.customview.rangebar.helper.*
 
 abstract class Thumb(context: Context, private val attrs: ThumbAttributes, private var leftEdge: () -> Int, private var rightEdge: () -> Int) : View(context) {
@@ -23,7 +23,7 @@ abstract class Thumb(context: Context, private val attrs: ThumbAttributes, priva
     private val valueChangedPublisher: Subject<Int> = PublishSubject.create()
 
     var position: Int
-        get() = layoutParams<FrameLayout.LayoutParams>().leftMargin
+        get() = layoutParams<FrameLayout.LayoutParams>()?.leftMargin ?: 0
         set(value) {
             updateLayoutParams<FrameLayout.LayoutParams> { leftMargin = value }
         }
