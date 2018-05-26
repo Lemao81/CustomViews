@@ -33,6 +33,7 @@ dependencies {
     implementation Libs.gridLayout
     implementation Libs.rxJava
     implementation Libs.andutils
+    implementation Libs.jutils
 //    version conflicts (1.1.0 -> 1.1.1)
     implementation Libs.archLiveDataCore
     implementation Libs.archLifecycleRuntime

@@ -2,21 +2,31 @@ package com.jueggs.customview
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import com.jueggs.customview.stackoverflowtag.StackoverflowTag
-import com.jueggs.jutils.extension.random
+import android.widget.LinearLayout
+import com.jueggs.customview.stackoverflowtag.*
+import com.jueggs.jutils.helper.DistinctRandom
 import kotlinx.android.synthetic.main.activity_test_stackoverflow_tag.*
 
 class TestStackoverflowTagActivity : AppCompatActivity() {
     private val randomTagNames = listOf("javascript", "java", "c#", "html", "css", "android", "kotlin", "angularjs", "knockout", "spring", "jquery")
+    private val random = DistinctRandom(randomTagNames)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test_stackoverflow_tag)
+
+        addTagViews(linContainerSmall, Size.SMALL)
+        random.reset()
+        addTagViews(linContainerMedium, Size.MEDIUM)
+        random.reset()
+        addTagViews(linContainerBig, Size.BIG)
+        random.reset()
+        linContainerExtra.addView(StackoverflowTag(this, random.next(), Size.MEDIUM).apply { rightMargin = 20 })
+        linContainerExtra.addView(StackoverflowTag(this, random.next(), Size.MEDIUM).apply { rightMargin = 20 })
+        linContainerExtra.addView(StackoverflowTag(this, random.next(), Size.MEDIUM).apply { rightMargin = 20 })
     }
 
-    fun onAddTag(view: View) {
-        val input = edtTagName.text.toString()
-        linTagContainer.addView(StackoverflowTag(this, if (input.isBlank()) randomTagNames.random() else input))
+    private fun addTagViews(container: LinearLayout, size: Size) = (1..4).forEach {
+        container.addView(StackoverflowTag(this, random.next(), size))
     }
 }
