@@ -5,9 +5,7 @@ apply plugin: PluginIds.archivaUpload
 apply from: Paths.baseArchivaUpload
 
 dependencies {
-    implementation Lib.andutils
     implementation Lib.appcompatV7
-    implementation Lib.anko
 }
 
-archiva.artifactId = "stackoverflowtag"
+archiva.artifactId = "validatabletextinputlayout"

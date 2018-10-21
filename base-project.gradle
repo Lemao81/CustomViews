@@ -1,0 +1,29 @@
+ext {
+    configureRepositories = { project ->
+        project.repositories {
+            jcenter()
+            google()
+            maven { url Urls.mavenLocalInternal }
+            maven { url Urls.maven }
+        }
+    }
+
+    disableLintTasks = { project ->
+        project.tasks.whenTaskAdded { task ->
+            if (task.name.startsWith("lint"))
+                task.enabled = false
+        }
+    }
+
+    ignoreRelease = { project ->
+        project.afterEvaluate {
+            def android = it.extensions.findByName("android")
+            if (android != null) {
+                android.variantFilter { variant ->
+                    if (variant.buildType.name == 'release')
+                        variant.setIgnore(true)
+                }
+            }
+        }
+    }
+}

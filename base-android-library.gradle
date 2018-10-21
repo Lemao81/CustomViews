@@ -1,0 +1,40 @@
+apply plugin: PluginIds.androidLibrary
+apply plugin: PluginIds.kotlinAndroid
+
+kotlin { experimental { coroutines "enable" } }
+
+android {
+    compileSdkVersion App.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion App.minSdkVersion
+        targetSdkVersion App.targetSdkVersion
+        versionCode App.versionCode
+        versionName App.versionName
+
+        multiDexEnabled true
+        testInstrumentationRunner Const.androidTestRunner
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = Versions.java8
+        targetCompatibility = Versions.java8
+    }
+
+    flavorDimensions Dimension.main
+    productFlavors {
+        dev { dimension Dimension.main }
+        prod { dimension Dimension.main }
+    }
+}
+
+dependencies {
+    implementation Lib.kotlinStd8
+}

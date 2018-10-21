@@ -15,18 +15,28 @@ class TestStackoverflowTagActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test_stackoverflow_tag)
 
-        addTagViews(linContainerSmall, Size.SMALL)
+        addTagViews(linContainer1, 1)
         random.reset()
-        addTagViews(linContainerMedium, Size.MEDIUM)
+        addTagViews(linContainer2, 2)
         random.reset()
-        addTagViews(linContainerBig, Size.BIG)
+        addTagViews(linContainer3, 3)
         random.reset()
-        linContainerExtra.addView(StackoverflowTag(this, random.next(), Size.MEDIUM).apply { rightMargin = 20 })
-        linContainerExtra.addView(StackoverflowTag(this, random.next(), Size.MEDIUM).apply { rightMargin = 20 })
-        linContainerExtra.addView(StackoverflowTag(this, random.next(), Size.MEDIUM).apply { rightMargin = 20 })
+        addTagViews(linContainer4, 4)
+        random.reset()
+        addTagViews(linContainer5, 5)
+        random.reset()
+        addTagViews(linContainer6, 6)
+        random.reset()
+        addTagViews(linContainer7, 7)
+        random.reset()
+        addTagViews(linContainer8, 8)
+        random.reset()
+        linContainerExtra.addView(StackoverflowTag(this, random.next()).apply { rightMargin = 20 })
+        linContainerExtra.addView(StackoverflowTag(this, random.next()).apply { rightMargin = 20 })
+        linContainerExtra.addView(StackoverflowTag(this, random.next()).apply { rightMargin = 20 })
     }
 
-    private fun addTagViews(container: LinearLayout, size: Size) = (1..4).forEach {
+    private fun addTagViews(container: LinearLayout, size: Int) = (1..4).forEach {
         container.addView(StackoverflowTag(this, random.next(), size))
     }
 }

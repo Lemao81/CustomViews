@@ -1,3 +1,5 @@
+apply from: Paths.baseProject
+
 buildscript {
     repositories {
         google()
@@ -5,22 +7,15 @@ buildscript {
         maven { url Urls.mavenLocalInternal }
     }
     dependencies {
-        classpath Plugins.gradle
+        classpath Plugins.androidGradle
         classpath Plugins.kotlin
         classpath Plugins.custom
     }
 }
 
 allprojects {
-    repositories {
-        google()
-        jcenter()
-        maven { url Urls.mavenLocalInternal }
-    }
-    tasks.whenTaskAdded { task ->
-        if (task.name.startsWith("lint"))
-            task.enabled = false
-    }
+    configureRepositories(it)
+    disableLintTasks(it)
 }
 
 task clean(type: Delete) {

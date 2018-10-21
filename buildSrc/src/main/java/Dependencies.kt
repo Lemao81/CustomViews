@@ -1,39 +1,38 @@
 object Versions {
-    const val compileSdkVersion = 27
-    const val minSdkVersion = 19
-    const val targetSdkVersion = 27
-    const val versionCode = 1
-    const val versionName = "1.0"
-
+    // plugins
     const val customPlugins = "1.0.3"
-    const val gmsPlugin = "3.1.0"
-    const val gradlePlugin = "3.1.1"
+    const val gmsPlugin = "4.0.1"
+    const val androidGradlePlugin = "3.2.0"
     const val fabricPlugin = "1.24.4"
     const val hugoPlugin = "1.2.1"
 
-    const val andutils = "1.0.21"
-    const val jutils = "1.0.5"
-    const val firebaseutils = "1.0.1"
-    const val resutils = "1.0.1"
-    const val rangebar = "1.0.1"
+    // utils
+    const val andutils = "1.0.40"
+    const val jutils = "1.0.9"
+    const val firebaseutils = "1.0.3"
+    const val resutils = "1.0.3"
 
+    // custom views
+    const val rangebar = "1.0.3"
+    const val stackoverflowtag = "1.0.5"
+
+    // libs
     const val java7 = "1.7"
     const val java8 = "1.8"
-    const val kotlin = "1.2.30"
-    const val kotlinCoroutine = "0.21"
+    const val kotlin = "1.2.71"
+    const val kotlinCoroutine = "0.30.2"
     const val anko = "0.10.3"
     const val gms = "11.8.0"
     const val firebase = "11.8.0"
     const val support = "27.1.1"
-    const val androidPlugin = "3.1.0"
     const val glide = "4.5.0"
     const val rxJava = "2.1.9"
     const val rxJavaAndroid = "2.0.1"
+    const val rxBinding = "2.1.0"
     const val mapStruct = "1.2.0.Final"
-    const val constraintLayout = "1.0.2"
+    const val constraintLayout = "1.1.3"
     const val firebaseUi = "3.2.2"
     const val mosbyMvi = "3.1.0"
-    const val rxBinding = "2.1.0"
     const val dagger = "2.15"
     const val joda = "2.9.9"
     const val crystalRange = "1.1.3"
@@ -50,8 +49,10 @@ object Versions {
     const val javaxInject = "1"
     const val koin = "0.9.2"
     const val room = "1.0.0"
-    const val mockito = "2.7.22"
+    const val mockito = "2.18.3"
+    const val mockitoKotlin = "1.5.0"
     const val powermock = "1.6.5"
+    const val mockk = "1.8.9"
     const val androidKtx = "0.3"
     const val frodo = "0.8.3"
     const val retrofit2 = "2.4.0"
@@ -59,24 +60,32 @@ object Versions {
     const val buildTimeTracker = "0.11.0"
     const val archLifecycle = "1.1.1"
     const val okLog = "2.3.0"
+    const val archNavigation = "1.0.0-alpha06"
+    const val leakCanary = "1.6.2"
+    const val rxDisposer = "1.0.0-alpha.1"
 }
 
-object Libs {
+object Lib {
+    // selfmade
     const val andutils = "com.jueggs:andutils:${Versions.andutils}"
     const val jutils = "com.jueggs:jutils:${Versions.jutils}"
     const val firebaseutils = "com.jueggs:firebaseutils:${Versions.firebaseutils}"
     const val resutils = "com.jueggs:resutils:${Versions.resutils}"
     const val rangebar = "com.jueggs.customview:rangebar:${Versions.rangebar}"
+    const val stackoverflowtag = "com.jueggs.customview:stackoverflowtag:${Versions.stackoverflowtag}"
 
-    const val kotlinStd7 = "org.jetbrains.kotlin:kotlin-stdlib-jre7:${Versions.kotlin}"
-    const val kotlinStd8 = "org.jetbrains.kotlin:kotlin-stdlib-jre8:${Versions.kotlin}"
+    // libs
+    const val kotlinStd7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
+    const val kotlinStd8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
     const val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
     const val kotlinCoroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutine}"
+    const val kotlinCoroutineAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutine}"
     const val rxJava = "io.reactivex.rxjava2:rxjava:${Versions.rxJava}"
     const val rxJavaAndroid = "io.reactivex.rxjava2:rxandroid:${Versions.rxJavaAndroid}"
     const val rxBinding = "com.jakewharton.rxbinding2:rxbinding-kotlin:${Versions.rxBinding}"
     const val rxBindingRecyclerView = "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:${Versions.rxBinding}"
-    const val appcompat = "com.android.support:appcompat-v7:${Versions.support}"
+    const val rxDisposer = "io.sellmair:disposer:${Versions.rxDisposer}"
+    const val appcompatV7 = "com.android.support:appcompat-v7:${Versions.support}"
     const val design = "com.android.support:design:${Versions.support}"
     const val recyclerView = "com.android.support:recyclerview-v7:${Versions.support}"
     const val cardView = "com.android.support:cardview-v7:${Versions.support}"
@@ -85,8 +94,7 @@ object Libs {
     const val exifinterface = "com.android.support:exifinterface:${Versions.support}"
     const val constraintLayout = "com.android.support.constraint:constraint-layout:${Versions.constraintLayout}"
     const val gridLayout = "com.android.support:gridlayout-v7:${Versions.support}"
-    // must equal gradle plugin version
-    const val databindingCompiler = "com.android.databinding:compiler:${Versions.gradlePlugin}"
+    const val databindingCompiler = "com.android.databinding:compiler:${Versions.androidGradlePlugin}"
     const val firebaseCore = "com.google.firebase:firebase-core:${Versions.firebase}"
     const val firebaseDatabase = "com.google.firebase:firebase-database:${Versions.firebase}"
     const val firebaseAuth = "com.google.firebase:firebase-auth:${Versions.firebase}"
@@ -113,11 +121,6 @@ object Libs {
     const val keyboardVisibility = "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:${Versions.keyboardVisibility}"
     const val mapStruct = "org.mapstruct:mapstruct-jdk8:${Versions.mapStruct}"
     const val mapStructProc = "org.mapstruct:mapstruct-processor:${Versions.mapStruct}"
-    const val jUnit = "junit:junit:${Versions.jUnit}"
-    const val testRunner = "com.android.support.test:runner:${Versions.supportTest}"
-    const val testRules = "com.android.support.test:rules:${Versions.supportTest}"
-    const val espressoCore = "com.android.support.test.espresso:espresso-core:${Versions.espresso}"
-    const val espressoIntents = "com.android.support.test.espresso:espresso-intents:${Versions.espresso}"
     const val crashLytics = "com.crashlytics.sdk.android:crashlytics:${Versions.crashLytics}"
     const val apacheValidator = "commons-validator:commons-validator:${Versions.apacheValidator}"
     const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
@@ -133,24 +136,54 @@ object Libs {
     const val archLifecycleRuntime = "android.arch.lifecycle:runtime:${Versions.archLifecycle}"
     const val archLifecycleViewModel = "android.arch.lifecycle:viewmodel:${Versions.archLifecycle}"
     const val archLiveDataCore = "android.arch.lifecycle:livedata-core:${Versions.archLifecycle}"
-    const val mockito = "org.mockito:mockito-core:${Versions.mockito}"
-    const val powermock = "org.powermock:powermock:${Versions.powermock}"
     const val androidKtx = "androidx.core:core-ktx:${Versions.androidKtx}"
     const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.retrofit2}"
     const val retrofit2GsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.retrofit2}"
     const val retrofit2CoroutineAdapter = "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-experimental-adapter:${Versions.retrofit2CoroutineAdapter}"
     const val okLog = "com.github.simonpercic:oklog3:${Versions.okLog}"
+    const val archNavigationFragment = "android.arch.navigation:navigation-fragment-ktx:${Versions.archNavigation}"
+    const val archNavigationUi = "android.arch.navigation:navigation-ui-ktx:${Versions.archNavigation}"
+    const val archNavigationSafeArgs = "android.arch.navigation:navigation-safe-args-gradle-plugin:${Versions.archNavigation}"
+    const val leakCanaryNoop = "com.squareup.leakcanary:leakcanary-android-no-op:${Versions.leakCanary}"
+    const val leakCanarySupport = "com.squareup.leakcanary:leakcanary-support-fragment:${Versions.leakCanary}"
+
+    // testing
+    const val jUnit = "junit:junit:${Versions.jUnit}"
+    const val testRunner = "com.android.support.test:runner:${Versions.supportTest}"
+    const val testRules = "com.android.support.test:rules:${Versions.supportTest}"
+    const val espressoCore = "com.android.support.test.espresso:espresso-core:${Versions.espresso}"
+    const val espressoIntents = "com.android.support.test.espresso:espresso-intents:${Versions.espresso}"
+    const val mockito = "org.mockito:mockito-core:${Versions.mockito}"
+    const val powermock = "org.powermock:powermock:${Versions.powermock}"
+    const val mockitoKotlin = "com.nhaarman:mockito-kotlin:${Versions.mockitoKotlin}"
+    const val mockk = "io.mockk:mockk:${Versions.mockk}"
+    const val leakCanary = "com.squareup.leakcanary:leakcanary-android:${Versions.leakCanary}"
 }
 
 object Plugins {
     const val custom = "com.jueggs:gradleplugins:${Versions.customPlugins}"
-    const val gradle = "com.android.tools.build:gradle:${Versions.gradlePlugin}"
+    const val androidGradle = "com.android.tools.build:gradle:${Versions.androidGradlePlugin}"
     const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
     const val gms = "com.google.gms:google-services:${Versions.gmsPlugin}"
     const val fabric = "io.fabric.tools:gradle:${Versions.fabricPlugin}"
     const val hugo = "com.jakewharton.hugo:hugo-plugin:${Versions.hugoPlugin}"
     const val frodo = "com.fernandocejas.frodo:frodo-plugin:${Versions.frodo}"
     const val buildTimeTracker = "net.rdrei.android.buildtimetracker:gradle-plugin:${Versions.buildTimeTracker}"
+    const val safeargs = "android.arch.navigation:navigation-safe-args-gradle-plugin:${Versions.archNavigation}"
+}
+
+object PluginIds {
+    const val androidApplication = "com.android.application"
+    const val androidLibrary = "com.android.library"
+    const val javaLibrary = "java-library"
+    const val kotlin = "kotlin"
+    const val kotlinAndroid = "kotlin-android"
+    const val kotlinKapt = "kotlin-kapt"
+    const val kotlinAndroidExtensions = "kotlin-android-extensions"
+    const val gms = "com.google.gms.google-services"
+    const val archivaUpload = "custom-archivaupload"
+    const val maven = "maven"
+    const val safeargs = "androidx.navigation.safeargs"
 }
 
 object Urls {
@@ -159,4 +192,8 @@ object Urls {
     const val fabric = "https://maven.fabric.io/public"
     const val jitpack = "https://jitpack.io"
     const val maven = "https://maven.google.com/"
+}
+
+object Const {
+    const val androidTestRunner = "android.support.test.runner.AndroidJUnitRunner"
 }

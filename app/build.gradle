@@ -1,43 +1,51 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: PluginIds.androidApplication
+apply plugin: PluginIds.kotlinAndroid
+apply plugin: PluginIds.kotlinAndroidExtensions
 
 android {
-    compileSdkVersion Versions.compileSdkVersion
+    compileSdkVersion App.compileSdkVersion
+
     defaultConfig {
-        applicationId "com.jueggs.customview"
-        minSdkVersion Versions.minSdkVersion
-        targetSdkVersion Versions.targetSdkVersion
-        versionCode Versions.versionCode
-        versionName Versions.versionName
+        applicationId App.applicationId
+        minSdkVersion App.minSdkVersion
+        targetSdkVersion App.targetSdkVersion
+        versionCode App.versionCode
+        versionName App.versionName
 
         javaCompileOptions { annotationProcessorOptions.includeCompileClasspath = true }
         multiDexEnabled true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner Const.androidTestRunner
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions Dimension.main
+    productFlavors {
+        dev { dimension Dimension.main }
+        prod { dimension Dimension.main }
+    }
 }
 
 dependencies {
-    implementation project(":rangebar")
-    implementation project(":stackoverflowtag")
+    implementation project(Module.rangebar)
+    implementation project(Module.stackoverflowtag)
+    implementation project(Module.validatabletextinputlayout)
 
-    implementation Libs.kotlinStd8
-    implementation Libs.appcompat
-    implementation Libs.constraintLayout
-    implementation Libs.gridLayout
-    implementation Libs.rxJava
-    implementation Libs.andutils
-    implementation Libs.jutils
+    implementation Lib.kotlinStd8
+    implementation Lib.appcompatV7
+    implementation Lib.constraintLayout
+    implementation Lib.gridLayout
+    implementation Lib.rxJava
+    implementation Lib.andutils
+    implementation Lib.jutils
 //    version conflicts (1.1.0 -> 1.1.1)
-    implementation Libs.archLiveDataCore
-    implementation Libs.archLifecycleRuntime
-    implementation Libs.archLifecycleViewModel
+    implementation Lib.archLiveDataCore
+    implementation Lib.archLifecycleRuntime
+    implementation Lib.archLifecycleViewModel
 //
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
 }

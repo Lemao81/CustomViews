@@ -1,38 +1,15 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'maven'
-apply plugin: 'custom-archivaupload'
-
-android {
-    compileSdkVersion Versions.compileSdkVersion
-    defaultConfig {
-        minSdkVersion Versions.minSdkVersion
-        targetSdkVersion Versions.targetSdkVersion
-        versionCode Versions.versionCode
-        versionName Versions.versionName
-        multiDexEnabled true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-}
+apply from: Paths.baseAndroidLibrary
+apply plugin: PluginIds.kotlinAndroidExtensions
+apply plugin: PluginIds.maven
+apply plugin: PluginIds.archivaUpload
+apply from: Paths.baseArchivaUpload
 
 dependencies {
-    implementation Libs.kotlinStd8
-    implementation Libs.appcompat
-    implementation Libs.anko
-    implementation Libs.rxJava
-    implementation Libs.andutils
-    implementation Libs.androidKtx
+    implementation Lib.andutils
+    implementation Lib.appcompatV7
+    implementation Lib.anko
+    implementation Lib.rxJava
+    implementation Lib.androidKtx
 }
 
-archiva {
-    groupId = "com.jueggs.customview"
-    artifactId = "rangebar"
-}
-uploadArchives { repositories { mavenDeployer() } }
+archiva.artifactId = "rangebar"

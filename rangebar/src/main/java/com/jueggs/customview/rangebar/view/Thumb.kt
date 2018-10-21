@@ -10,9 +10,10 @@ import io.reactivex.subjects.*
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.core.view.*
 import com.jueggs.andutils.*
+import com.jueggs.andutils.callback.*
 import com.jueggs.andutils.extension.*
-import com.jueggs.andutils.helper.*
 import com.jueggs.customview.rangebar.helper.*
+import com.jueggs.jutils.cropToRange
 
 abstract class Thumb(context: Context, private val attrs: ThumbAttributes, private var leftEdge: () -> Int, private var rightEdge: () -> Int) : View(context) {
     private var paint: Paint = Paint().apply { color = attrs.color; style = Paint.Style.FILL }

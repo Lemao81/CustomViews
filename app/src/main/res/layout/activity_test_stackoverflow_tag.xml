@@ -8,7 +8,7 @@
     tools:context=".TestStackoverflowTagActivity">
 
     <LinearLayout
-        android:id="@+id/linContainerSmall"
+        android:id="@+id/linContainer1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -19,24 +19,74 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linContainerMedium"
+        android:id="@+id/linContainer2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linContainerSmall" />
+        app:layout_constraintTop_toBottomOf="@+id/linContainer1" />
 
     <LinearLayout
-        android:id="@+id/linContainerBig"
+        android:id="@+id/linContainer3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linContainerMedium" />
+        app:layout_constraintTop_toBottomOf="@+id/linContainer2" />
+
+    <LinearLayout
+        android:id="@+id/linContainer4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linContainer3" />
+
+    <LinearLayout
+        android:id="@+id/linContainer5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linContainer4" />
+
+    <LinearLayout
+        android:id="@+id/linContainer6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linContainer5" />
+
+    <LinearLayout
+        android:id="@+id/linContainer7"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linContainer6" />
+
+    <LinearLayout
+        android:id="@+id/linContainer8"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linContainer7" />
 
     <LinearLayout
         android:id="@+id/linContainerExtra"
@@ -46,6 +96,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linContainerBig" />
+        app:layout_constraintTop_toBottomOf="@+id/linContainer8" />
+
 
 </android.support.constraint.ConstraintLayout>
