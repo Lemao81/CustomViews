@@ -1,0 +1,12 @@
+apply from: Paths.baseAndroidLibrary
+apply plugin: PluginIds.kotlinAndroidExtensions
+apply plugin: PluginIds.maven
+apply plugin: PluginIds.archivaUpload
+apply from: Paths.baseArchivaUpload
+
+dependencies {
+    implementation Lib.andutils
+    implementation Lib.appcompatV7
+}
+
+archiva.artifactId = "availableindicator"

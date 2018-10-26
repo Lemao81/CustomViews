@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">availableindicator</string>
+    <string name="online_indicator">online indicator</string>
+    <string name="available_indicator">online indicator</string>
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_indicator_size">24dp</dimen>
+    <dimen name="indicator_space_small">4dp</dimen>
+    <dimen name="default_indicator_space">6dp</dimen>
+    <dimen name="indicator_space_big">8dp</dimen>
+</resources>

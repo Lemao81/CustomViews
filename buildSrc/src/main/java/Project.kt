@@ -11,6 +11,7 @@ object Module {
     const val rangebar = ":rangebar"
     const val stackoverflowtag = ":stackoverflowtag"
     const val validatabletextinputlayout = ":validatabletextinputlayout"
+    const val availableindicator = ":availableindicator"
 }
 
 object Dimension {

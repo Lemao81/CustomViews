@@ -1,1 +1,1 @@
-include ':app', ':rangebar', ':stackoverflowtag', ':validatabletextinputlayout'
+include ':app', ':rangebar', ':stackoverflowtag', ':validatabletextinputlayout', ':availableindicator'

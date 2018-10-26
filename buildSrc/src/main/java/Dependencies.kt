@@ -7,10 +7,11 @@ object Versions {
     const val hugoPlugin = "1.2.1"
 
     // utils
-    const val andutils = "1.0.40"
+    const val andutils = "1.0.44"
     const val jutils = "1.0.9"
     const val firebaseutils = "1.0.3"
     const val resutils = "1.0.3"
+    const val andtestutils = "1.0.3"
 
     // custom views
     const val rangebar = "1.0.3"
@@ -63,6 +64,10 @@ object Versions {
     const val archNavigation = "1.0.0-alpha06"
     const val leakCanary = "1.6.2"
     const val rxDisposer = "1.0.0-alpha.1"
+    const val transitionX = "1.0.0-beta4"
+    const val khttp = "0.1.0"
+    const val kakao = "1.4.0"
+    const val uiAutomator = "2.1.1"
 }
 
 object Lib {
@@ -71,6 +76,7 @@ object Lib {
     const val jutils = "com.jueggs:jutils:${Versions.jutils}"
     const val firebaseutils = "com.jueggs:firebaseutils:${Versions.firebaseutils}"
     const val resutils = "com.jueggs:resutils:${Versions.resutils}"
+    const val andtestutils = "com.jueggs:andtestutils:${Versions.andtestutils}"
     const val rangebar = "com.jueggs.customview:rangebar:${Versions.rangebar}"
     const val stackoverflowtag = "com.jueggs.customview:stackoverflowtag:${Versions.stackoverflowtag}"
 
@@ -135,7 +141,8 @@ object Lib {
     const val archLifecycleCompiler = "android.arch.lifecycle:compiler:${Versions.archLifecycle}"
     const val archLifecycleRuntime = "android.arch.lifecycle:runtime:${Versions.archLifecycle}"
     const val archLifecycleViewModel = "android.arch.lifecycle:viewmodel:${Versions.archLifecycle}"
-    const val archLiveDataCore = "android.arch.lifecycle:livedata-core:${Versions.archLifecycle}"
+    const val archLifeCycleLiveData = "android.arch.lifecycle:livedata:${Versions.archLifecycle}"
+    const val archLifeCycleLiveDataCore = "android.arch.lifecycle:livedata-core:${Versions.archLifecycle}"
     const val androidKtx = "androidx.core:core-ktx:${Versions.androidKtx}"
     const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.retrofit2}"
     const val retrofit2GsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.retrofit2}"
@@ -144,8 +151,11 @@ object Lib {
     const val archNavigationFragment = "android.arch.navigation:navigation-fragment-ktx:${Versions.archNavigation}"
     const val archNavigationUi = "android.arch.navigation:navigation-ui-ktx:${Versions.archNavigation}"
     const val archNavigationSafeArgs = "android.arch.navigation:navigation-safe-args-gradle-plugin:${Versions.archNavigation}"
+    const val leakCanary = "com.squareup.leakcanary:leakcanary-android:${Versions.leakCanary}"
     const val leakCanaryNoop = "com.squareup.leakcanary:leakcanary-android-no-op:${Versions.leakCanary}"
     const val leakCanarySupport = "com.squareup.leakcanary:leakcanary-support-fragment:${Versions.leakCanary}"
+    const val transitionX = "in.arunkumarsampath:transition-x:${Versions.transitionX}"
+    const val khttp = "khttp:khttp:${Versions.khttp}"
 
     // testing
     const val jUnit = "junit:junit:${Versions.jUnit}"
@@ -157,7 +167,9 @@ object Lib {
     const val powermock = "org.powermock:powermock:${Versions.powermock}"
     const val mockitoKotlin = "com.nhaarman:mockito-kotlin:${Versions.mockitoKotlin}"
     const val mockk = "io.mockk:mockk:${Versions.mockk}"
-    const val leakCanary = "com.squareup.leakcanary:leakcanary-android:${Versions.leakCanary}"
+    const val mockkAndroid = "io.mockk:mockk-android:${Versions.mockk}"
+    const val kakao = "com.agoda.kakao:kakao:${Versions.kakao}"
+    const val uiAutomator = "com.android.support.test.uiautomator:uiautomator-v18:${Versions.uiAutomator}"
 }
 
 object Plugins {
