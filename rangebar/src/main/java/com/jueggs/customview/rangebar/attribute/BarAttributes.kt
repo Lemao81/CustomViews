@@ -22,8 +22,8 @@ class BarAttributes(context: Context, a: TypedArray, thumbAttrs: ThumbAttributes
     val heightF = height.toFloat()
     val radius = a.getInteger(R.styleable.RangeBar_barRadius, DEFAULT_BAR_RADIUS).toFloat()
     val margin = thumbAttrs.radius + thumbAttrs.margin
-    val baseColor = a.getColor(R.styleable.RangeBar_barBaseColor, context.getColorCompat(R.color.default_bar_base_color))
-    val rangeColor = a.getColor(R.styleable.RangeBar_barRangeColor, context.getColorCompat(R.color.default_bar_range_color))
+    val baseColor = a.getColor(R.styleable.RangeBar_barBaseColor, context.colorResToInt(R.color.default_bar_base_color))
+    val rangeColor = a.getColor(R.styleable.RangeBar_barRangeColor, context.colorResToInt(R.color.default_bar_range_color))
     val totalMin = a.getInteger(R.styleable.RangeBar_totalMin, DEFAULT_TOTAL_MIN)
     val totalMax = Math.max(a.getInteger(R.styleable.RangeBar_totalMax, DEFAULT_TOTAL_MAX), totalMin)
     val rangeMin = Math.max(a.getInteger(R.styleable.RangeBar_rangeMin, totalMin), totalMin)
