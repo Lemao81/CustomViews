@@ -1,8 +1,6 @@
 apply plugin: PluginIds.androidApplication
 apply plugin: PluginIds.kotlinAndroid
 apply plugin: PluginIds.kotlinAndroidExtensions
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion App.compileSdkVersion
@@ -40,9 +38,9 @@ dependencies {
     implementation project(Module.availableindicator)
 
     implementation Lib.kotlinStd8
-    implementation Lib.appcompatV7
-    implementation Lib.constraintLayout
-    implementation Lib.gridLayout
+    implementation Lib.supportAppcompat
+    implementation Lib.supportConstraintLayout
+    implementation Lib.supportGridLayout
     implementation Lib.rxJava
     implementation Lib.andutils
     implementation Lib.jutils
@@ -52,5 +50,4 @@ dependencies {
     implementation Lib.archLifecycleRuntime
     implementation Lib.archLifecycleViewModel
 //
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 }

@@ -5,8 +5,8 @@ apply plugin: PluginIds.archivaUpload
 apply from: Paths.baseArchivaUpload
 
 dependencies {
-    implementation Lib.appcompatV7
-    implementation Lib.design
+    implementation Lib.supportAppcompat
+    implementation Lib.supportDesign
 }
 
 archiva.artifactId = "validatabletextinputlayout"

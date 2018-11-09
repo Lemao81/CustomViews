@@ -6,7 +6,7 @@ apply from: Paths.baseArchivaUpload
 
 dependencies {
     implementation Lib.andutils
-    implementation Lib.appcompatV7
+    implementation Lib.supportAppcompat
 }
 
 archiva.artifactId = "availableindicator"

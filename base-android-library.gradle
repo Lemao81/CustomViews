@@ -1,8 +1,6 @@
 apply plugin: PluginIds.androidLibrary
 apply plugin: PluginIds.kotlinAndroid
 
-kotlin { experimental { coroutines "enable" } }
-
 android {
     compileSdkVersion App.compileSdkVersion
 
