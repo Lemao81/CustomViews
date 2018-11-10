@@ -7,11 +7,12 @@ object Versions {
     const val hugoPlugin = "1.2.1"
 
     // utils
-    const val andutils = "1.0.49"
-    const val jutils = "1.0.12"
-    const val firebaseutils = "1.0.4"
-    const val resutils = "1.0.4"
-    const val andtestutils = "1.0.5"
+    const val andutils = "1.0.50"
+    const val jutils = "1.0.13"
+    const val firebaseutils = "1.0.5"
+    const val resutils = "1.0.5"
+    const val andtestutils = "1.0.6"
+    const val customviewutils = "1.0.1"
 
     // custom views
     const val rangebar = "1.0.3"
@@ -86,6 +87,7 @@ object Lib {
     const val firebaseutils = "com.jueggs:firebaseutils:${Versions.firebaseutils}"
     const val resutils = "com.jueggs:resutils:${Versions.resutils}"
     const val andtestutils = "com.jueggs:andtestutils:${Versions.andtestutils}"
+    const val customviewutils = "com.jueggs:customviewutils:${Versions.customviewutils}"
     const val rangebar = "com.jueggs.customview:rangebar:${Versions.rangebar}"
     const val stackoverflowtag = "com.jueggs.customview:stackoverflowtag:${Versions.stackoverflowtag}"
     const val availableindicator = "com.jueggs.customview:availableindicator:${Versions.availableindicator}"
