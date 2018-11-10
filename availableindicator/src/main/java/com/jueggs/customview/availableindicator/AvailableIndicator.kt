@@ -7,14 +7,32 @@ import android.widget.LinearLayout
 import com.jueggs.andutils.extension.*
 import kotlinx.android.synthetic.main.indicator_layout.view.*
 
-class AvailableIndicator @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : LinearLayout(context, attrs, defStyleAttr) {
-    var attributes = Attributes(context, attrs)
+class AvailableIndicator : LinearLayout {
+    //region constructor
+    constructor(context: Context) : super(context) {
+        init(context, null)
+    }
 
-    init {
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        init(context, attrs)
+    }
+
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+        init(context, attrs)
+    }
+
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {
+        init(context, attrs)
+    }
+    //endregion
+
+    private fun init(context: Context, attrs: AttributeSet?) {
         LayoutInflater.from(context).inflate(R.layout.indicator_layout, this, true)
+        val attributes = AttributeStore(context, attrs, R.styleable.AvailableIndicator).attributes
+        val indicatorSize = attributes.indicatorSize
 
-        imgOnline.setWidthAndHeight(attributes.indicatorSize, attributes.indicatorSize)
-        imgAvailable.setWidthAndHeight(attributes.indicatorSize, attributes.indicatorSize)
+        imgOnline.setWidthAndHeight(indicatorSize, indicatorSize)
+        imgAvailable.setWidthAndHeight(indicatorSize, indicatorSize)
         imgAvailable.layoutParams.asMarginLayoutParams().leftMargin = attributes.indicatorSpace
     }
 

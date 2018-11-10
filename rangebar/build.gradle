@@ -6,6 +6,7 @@ apply from: Paths.baseArchivaUpload
 
 dependencies {
     implementation Lib.andutils
+    implementation Lib.customviewutils
     implementation Lib.supportAppcompat
     implementation Lib.anko
     implementation Lib.rxJava

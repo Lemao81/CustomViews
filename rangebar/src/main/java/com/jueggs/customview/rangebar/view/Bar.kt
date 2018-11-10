@@ -6,9 +6,9 @@ import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
-import com.jueggs.andutils.measureView
 import com.jueggs.customview.rangebar.attribute.*
 import com.jueggs.customview.rangebar.helper.ValuePoint
+import com.jueggs.customviewutils.measureView
 import java.util.*
 
 class Bar(

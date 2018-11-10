@@ -11,7 +11,7 @@ import com.jueggs.customview.rangebar.view.*
 import io.reactivex.Observable
 import io.reactivex.disposables.*
 
-class RangeBar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
+class RangeBar : FrameLayout {
     private lateinit var thumbAttrs: ThumbAttributes
     private lateinit var barAttrs: BarAttributes
     private lateinit var bar: Bar
@@ -21,9 +21,26 @@ class RangeBar @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     private var rangeRightEdge: Int = 0
     private var disposables = CompositeDisposable()
 
-    init {
-        if (attrs != null)
-            obtainAttributes(context, attrs)
+    //region constructor
+    constructor(context: Context) : super(context) {
+        init(context, null)
+    }
+
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        init(context, attrs)
+    }
+
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+        init(context, attrs)
+    }
+
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {
+        init(context, attrs)
+    }
+    //endregion
+
+    private fun init(context: Context, attrs: AttributeSet?) {
+        attrs?.let { obtainAttributes(context, attrs) }
         createAndAddViews(context)
         initialize()
     }

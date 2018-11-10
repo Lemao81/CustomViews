@@ -18,7 +18,7 @@ class BarAttributes(context: Context, a: TypedArray, thumbAttrs: ThumbAttributes
         assert(isRangeMinDefined == isRangeMaxDefined, { "Both rangeMin and rangeMax need to be defined or none of them" })
     }
 
-    val height = Math.min(a.getDimensionPixelSize(R.styleable.RangeBar_barHeight, context.dpToPixel(DEFAULT_BAR_HEIGHT)), thumbAttrs.diameter)
+    val height = Math.min(a.getDimensionPixelSize(R.styleable.RangeBar_barHeight, context.dipToPixel(DEFAULT_BAR_HEIGHT)), thumbAttrs.diameter)
     val heightF = height.toFloat()
     val radius = a.getInteger(R.styleable.RangeBar_barRadius, DEFAULT_BAR_RADIUS).toFloat()
     val margin = thumbAttrs.radius + thumbAttrs.margin
