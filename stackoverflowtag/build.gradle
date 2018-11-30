@@ -1,8 +1,10 @@
-apply from: Paths.baseAndroidLibrary
-apply plugin: PluginIds.kotlinAndroidExtensions
-apply plugin: PluginIds.maven
-apply plugin: PluginIds.archivaUpload
-apply from: Paths.baseArchivaUpload
+import buildSrc.*
+
+apply from: Path.baseAndroidLibrary
+apply plugin: PluginId.kotlinAndroidExtensions
+apply plugin: PluginId.maven
+apply plugin: PluginId.archivaUpload
+apply from: Path.baseArchivaUpload
 
 dependencies {
     implementation Lib.andutils

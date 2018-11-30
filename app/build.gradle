@@ -1,6 +1,8 @@
-apply plugin: PluginIds.androidApplication
-apply plugin: PluginIds.kotlinAndroid
-apply plugin: PluginIds.kotlinAndroidExtensions
+import buildSrc.*
+
+apply plugin: PluginId.androidApplication
+apply plugin: PluginId.kotlinAndroid
+apply plugin: PluginId.kotlinAndroidExtensions
 
 android {
     compileSdkVersion App.compileSdkVersion
@@ -22,12 +24,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-
-    flavorDimensions Dimension.main
-    productFlavors {
-        dev { dimension Dimension.main }
-        prod { dimension Dimension.main }
     }
 }
 

@@ -1,23 +1,22 @@
-apply from: Paths.baseProject
+import buildSrc.*
+
+apply from: Path.baseProject
 
 buildscript {
     repositories {
         google()
         jcenter()
-        maven { url Urls.mavenLocalInternal }
+        maven { url Url.mavenLocalInternal }
     }
+
     dependencies {
-        classpath Plugins.androidGradle
-        classpath Plugins.kotlin
-        classpath Plugins.custom
+        classpath Plugin.androidGradle
+        classpath Plugin.kotlin
+        classpath Plugin.custom
     }
 }
 
 allprojects {
-    configureRepositories(it)
+    configureBaseRepositories(it)
     disableLintTasks(it)
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
 }

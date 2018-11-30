@@ -1,3 +1,5 @@
+package buildSrc
+
 object App {
     const val applicationId = "com.jueggs.customview"
     const val versionCode = 1
@@ -18,17 +20,7 @@ object Dimension {
     const val main = "main"
 }
 
-object BuildType {
-    const val release = "release"
-    const val debug = "debug"
-}
-
-object Paths {
-    const val baseProject = "base-project.gradle"
-    const val baseAndroidLibrary = "../base-android-library.gradle"
-    const val baseJavaLibrary = "../base-java-library.gradle"
-    const val baseKotlinAndroidExtension = "../base-kotlin-android-extension.gradle"
-    const val baseKapt = "../base-kapt.gradle"
-    const val baseDatabinding = "../base-databinding.gradle"
-    const val baseArchivaUpload = "../base-archivaupload.gradle"
+object Flavor {
+    const val dev = "dev"
+    const val prod = "prod"
 }
