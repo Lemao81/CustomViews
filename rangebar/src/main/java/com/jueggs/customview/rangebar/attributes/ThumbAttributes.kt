@@ -1,4 +1,4 @@
-package com.jueggs.customview.rangebar.attribute
+package com.jueggs.customview.rangebar.attributes
 
 import android.content.Context
 import android.content.res.TypedArray
@@ -12,6 +12,5 @@ class ThumbAttributes(context: Context, a: TypedArray) {
     val radius = diameter / 2
     val margin = diameter / 6
     val rightEdgeOffset = diameter + margin
-    val radiusF = radius.toFloat()
     val color = a.getColor(R.styleable.RangeBar_thumbColor, context.colorResToInt(R.color.default_thumb_color))
 }

@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.widget.FrameLayout
 import androidx.core.content.withStyledAttributes
 import com.jueggs.andutils.extension.use
-import com.jueggs.customview.rangebar.attribute.*
+import com.jueggs.customview.rangebar.attributes.*
 import com.jueggs.customview.rangebar.helper.*
 import com.jueggs.customview.rangebar.view.*
 import io.reactivex.Observable

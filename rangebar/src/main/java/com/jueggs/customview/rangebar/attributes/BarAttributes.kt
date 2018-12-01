@@ -1,9 +1,8 @@
-package com.jueggs.customview.rangebar.attribute
+package com.jueggs.customview.rangebar.attributes
 
 import android.content.Context
 import android.content.res.TypedArray
 import com.jueggs.andutils.extension.*
-import com.jueggs.customview.rangebar.*
 import com.jueggs.customview.rangebar.R
 
 class BarAttributes(context: Context, a: TypedArray, thumbAttrs: ThumbAttributes) {
@@ -18,8 +17,7 @@ class BarAttributes(context: Context, a: TypedArray, thumbAttrs: ThumbAttributes
         assert(isRangeMinDefined == isRangeMaxDefined, { "Both rangeMin and rangeMax need to be defined or none of them" })
     }
 
-    val height = Math.min(a.getDimensionPixelSize(R.styleable.RangeBar_barHeight, context.dipToPixel(DEFAULT_BAR_HEIGHT)), thumbAttrs.diameter)
-    val heightF = height.toFloat()
+    val height = Math.min(a.getDimensionPixelSize(R.styleable.RangeBar_height, context.dipToPixel(DEFAULT_BAR_HEIGHT)), thumbAttrs.diameter)
     val radius = a.getInteger(R.styleable.RangeBar_barRadius, DEFAULT_BAR_RADIUS).toFloat()
     val margin = thumbAttrs.radius + thumbAttrs.margin
     val baseColor = a.getColor(R.styleable.RangeBar_barBaseColor, context.colorResToInt(R.color.default_bar_base_color))

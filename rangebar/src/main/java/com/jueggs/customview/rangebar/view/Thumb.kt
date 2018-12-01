@@ -4,16 +4,15 @@ import android.content.Context
 import android.graphics.*
 import android.view.View
 import android.widget.FrameLayout
-import com.jueggs.customview.rangebar.attribute.ThumbAttributes
+import com.jueggs.customview.rangebar.attributes.ThumbAttributes
 import io.reactivex.Observable
 import io.reactivex.subjects.*
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import androidx.core.view.*
 import com.jueggs.andutils.callback.*
 import com.jueggs.andutils.extension.*
 import com.jueggs.customview.rangebar.helper.*
-import com.jueggs.customviewutils.measureView
-import com.jueggs.jutils.cropToRange
+import com.jueggs.customviewutils.CvUtil.measureView
+import com.jueggs.jutils.Util.cropToRange
 
 abstract class Thumb(context: Context, private val attrs: ThumbAttributes, private var leftEdge: () -> Int, private var rightEdge: () -> Int) : View(context) {
     private var paint: Paint = Paint().apply { color = attrs.color; style = Paint.Style.FILL }
@@ -24,9 +23,10 @@ abstract class Thumb(context: Context, private val attrs: ThumbAttributes, priva
     private val valueChangedPublisher: Subject<Int> = PublishSubject.create()
 
     var position: Int
-        get() = layoutParams<FrameLayout.LayoutParams>()?.leftMargin ?: 0
+        get() = layoutParams.asMarginLayoutParams().leftMargin
         set(value) {
-            updateLayoutParams<FrameLayout.LayoutParams> { leftMargin = value }
+            layoutParams.asMarginLayoutParams().leftMargin = value
+            layoutParams = layoutParams
         }
 
     open var valuePoint: ValuePoint = ValuePoint.EMPTY

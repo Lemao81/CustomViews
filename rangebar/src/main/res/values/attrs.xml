@@ -6,15 +6,15 @@
             <enum name="snap" value="1" />
             <enum name="raster" value="2" />
         </attr>
-        <attr name="thumbDiameter" format="dimension" />
-        <attr name="thumbColor" format="color" />
-        <attr name="barHeight" format="dimension" />
-        <attr name="barRadius" format="integer" />
+        <attr name="height" format="dimension" />
+        <attr name="barRadius" format="dimension" />
         <attr name="barBaseColor" format="color" />
         <attr name="barRangeColor" format="color" />
         <attr name="totalMin" format="integer" />
         <attr name="totalMax" format="integer" />
         <attr name="rangeMin" format="integer" />
         <attr name="rangeMax" format="integer" />
+        <attr name="thumbDiameter" format="dimension" />
+        <attr name="thumbColor" format="color" />
     </declare-styleable>
 </resources>

@@ -14,7 +14,7 @@ object Version {
     const val firebaseutils = "1.0.5"
     const val resutils = "1.0.5"
     const val andtestutils = "1.0.8"
-    const val customviewutils = "1.0.1"
+    const val customviewutils = "1.0.5"
 
     // custom views
     const val rangebar = "1.0.3"
