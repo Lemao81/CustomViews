@@ -12,8 +12,7 @@ import io.reactivex.Observable
 import io.reactivex.disposables.*
 
 class RangeBar : FrameLayout {
-    private lateinit var thumbAttrs: ThumbAttributes
-    private lateinit var barAttrs: BarAttributes
+    private lateinit var attributes: Attributes
     private lateinit var bar: Bar
     private lateinit var leftThumb: Thumb
     private lateinit var rightThumb: Thumb
@@ -40,29 +39,10 @@ class RangeBar : FrameLayout {
     //endregion
 
     private fun init(context: Context, attrs: AttributeSet?) {
-        attrs?.let { obtainAttributes(context, attrs) }
+        attributes = AttributeStore(context, attrs, R.styleable.RangeBar).attributes
         createAndAddViews(context)
-        initialize()
-    }
 
-    private fun obtainAttributes(context: Context, attrs: AttributeSet) {
-        context.withStyledAttributes(attrs, R.styleable.RangeBar) {
-            thumbAttrs = ThumbAttributes(context, this)
-            barAttrs = BarAttributes(context, this, thumbAttrs)
-        }
-    }
-
-    private fun createAndAddViews(context: Context) {
-        ThumbFactory(context, thumbAttrs).use { f ->
-            leftThumb = f.create({ rangeLeftEdge }, { rightThumb.position }).apply { addView(this) }
-            rightThumb = f.create({ leftThumb.position }, { rangeRightEdge }).apply { addView(this) }
-        }
-
-        bar = Bar(context, barAttrs, thumbAttrs, leftThumb, rightThumb).apply { addView(this, 0) }
-    }
-
-    private fun initialize() {
-        rangeLeftEdge = thumbAttrs.margin
+        rangeLeftEdge = leftThumb.margin
 
         disposables.add(leftThumb.observePositionChanging().subscribe { position ->
             bar.setLeftRange(position)
@@ -74,13 +54,20 @@ class RangeBar : FrameLayout {
         })
     }
 
+    private fun createAndAddViews(context: Context) {
+        val thumbFactory = ThumbFactory(context, attributes)
+        leftThumb = thumbFactory.create({ rangeLeftEdge }, { rightThumb.position }).apply { addView(this) }
+        rightThumb = thumbFactory.create({ leftThumb.position }, { rangeRightEdge }).apply { addView(this) }
+        bar = Bar(context, attributes, leftThumb, rightThumb).apply { addView(this, 0) }
+    }
+
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        rangeRightEdge = width - thumbAttrs.rightEdgeOffset
+        rangeRightEdge = width - (attributes.thumbDiameter + rightThumb.margin)
     }
 
     override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
         disposables.dispose()
+        super.onDetachedFromWindow()
     }
 
     //region API
@@ -88,9 +75,9 @@ class RangeBar : FrameLayout {
 
     fun getRangeMax() = rightThumb.valuePoint.value
 
-    fun getTotalMin() = barAttrs.totalMin
+    fun getTotalMin() = attributes.totalMin
 
-    fun getTotalMax() = barAttrs.totalMax
+    fun getTotalMax() = attributes.totalMax
 
     fun setRangeMin(value: Int) {
         if (value <= getRangeMax())

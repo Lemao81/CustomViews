@@ -1,8 +1,10 @@
 package com.jueggs.customview.rangebar.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.view.*
+import android.view.Gravity.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
@@ -11,24 +13,30 @@ import com.jueggs.customview.rangebar.helper.ValuePoint
 import com.jueggs.customviewutils.CvUtil.measureView
 import java.util.*
 
-class Bar(
-        context: Context,
-        private val barAttrs: BarAttributes,
-        private val thumbAttrs: ThumbAttributes,
-        private val leftThumb: Thumb,
-        private val rightThumb: Thumb) : View(context) {
-    private val baseBounds = RectF(0f, 0f, 0f, barAttrs.heightF)
-    private val rangeBounds = Rect(0, 0, 0, barAttrs.height)
+@SuppressLint("ViewConstructor")
+internal class Bar(context: Context, private val attributes: Attributes, private val leftThumb: Thumb, private val rightThumb: Thumb) : View(context) {
     lateinit var valuePoints: LinkedList<ValuePoint>
-
-    private val basePaint = Paint().apply { color = barAttrs.baseColor; style = Paint.Style.FILL }
-    private val rangePaint = Paint().apply { color = barAttrs.rangeColor;style = Paint.Style.FILL }
+    private val baseBounds = RectF(0f, 0f, 0f, attributes.height.toFloat())
+    private val rangeBounds = Rect(0, 0, 0, attributes.height)
+    private val basePaint = Paint()
+    private val rangePaint = Paint()
+    private val radius = attributes.barRadius.toFloat()
+    private val margin = (leftThumb.radius + leftThumb.margin).toInt()
 
     init {
+        with(basePaint) {
+            color = attributes.barBaseColor
+            style = Paint.Style.FILL
+        }
+        with(rangePaint) {
+            color = attributes.barRangeColor
+            style = Paint.Style.FILL
+        }
+
         layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
-            leftMargin = barAttrs.margin
-            rightMargin = barAttrs.margin
-            gravity = Gravity.CENTER_VERTICAL
+            leftMargin = margin
+            rightMargin = margin
+            gravity = CENTER_VERTICAL
         }
     }
 
@@ -46,33 +54,33 @@ class Bar(
         baseBounds.right = width.toFloat()
 
         valuePoints = createValuePoints()
-        leftThumb.initialize(valuePoints.single { it.value == barAttrs.rangeMin })
-        rightThumb.initialize(valuePoints.single { it.value == barAttrs.rangeMax })
+        leftThumb.initialize(valuePoints.single { it.value == attributes.rangeMin })
+        rightThumb.initialize(valuePoints.single { it.value == attributes.rangeMax })
     }
 
     private fun createValuePoints(): LinkedList<ValuePoint> {
         return LinkedList<ValuePoint>().also { points ->
             val width = width.toFloat()
-            val offset = thumbAttrs.margin.toFloat()
-            val steps = barAttrs.totalMax - barAttrs.totalMin
+            val offset = leftThumb.margin.toFloat()
+            val steps = attributes.totalMax - attributes.totalMin
             val interval = width / steps
 
             for (i in 0 until steps) {
-                val value = i + barAttrs.totalMin
+                val value = i + attributes.totalMin
                 val position = offset + i * interval
                 points.add(ValuePoint(value, position, interval, points))
             }
 
             val lastPosition = offset + width
             val lastInterval = (lastPosition - points.last.range.second) * 2
-            points.addLast(ValuePoint(barAttrs.totalMax, lastPosition, lastInterval, points))
+            points.addLast(ValuePoint(attributes.totalMax, lastPosition, lastInterval, points))
         }
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) = measureView(widthMeasureSpec, heightMeasureSpec, baseBounds.right.toInt(), barAttrs.height, this::setMeasuredDimension)
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) = measureView(widthMeasureSpec, heightMeasureSpec, baseBounds.right.toInt(), attributes.height, this::setMeasuredDimension)
 
     override fun onDraw(canvas: Canvas) {
-        canvas.drawRoundRect(baseBounds, barAttrs.radius, barAttrs.radius, basePaint)
+        canvas.drawRoundRect(baseBounds, radius, radius, basePaint)
         canvas.drawRect(rangeBounds, rangePaint)
     }
 }

@@ -1,10 +1,12 @@
 package com.jueggs.customview.rangebar.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import com.jueggs.andutils.callback.TapUpListener
-import com.jueggs.customview.rangebar.attributes.ThumbAttributes
+import com.jueggs.customview.rangebar.attributes.Attributes
 
-class SmoothThumb(context: Context, attrs: ThumbAttributes, leftEdge: () -> Int, rightEdge: () -> Int) : Thumb(context, attrs, leftEdge, rightEdge) {
+@SuppressLint("ViewConstructor")
+internal class SmoothThumb(context: Context, attributes: Attributes, leftEdge: () -> Int, rightEdge: () -> Int) : Thumb(context, attributes, leftEdge, rightEdge) {
 
     init {
         addTouchListener(TapUpListener {
